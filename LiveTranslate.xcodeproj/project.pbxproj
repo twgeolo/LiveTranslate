@@ -17,22 +17,7 @@
 		5E7F2C2019045D0F00872131 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C1F19045D0F00872131 /* FirstViewController.m */; };
 		5E7F2C2319045D0F00872131 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C2219045D0F00872131 /* SecondViewController.m */; };
 		5E7F2C2519045D0F00872131 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E7F2C2419045D0F00872131 /* Images.xcassets */; };
-		5E7F2C2C19045D0F00872131 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7F2C2B19045D0F00872131 /* XCTest.framework */; };
-		5E7F2C2D19045D0F00872131 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7F2C0919045D0F00872131 /* Foundation.framework */; };
-		5E7F2C2E19045D0F00872131 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7F2C0D19045D0F00872131 /* UIKit.framework */; };
-		5E7F2C3619045D0F00872131 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E7F2C3419045D0F00872131 /* InfoPlist.strings */; };
-		5E7F2C3819045D0F00872131 /* LiveTranslateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C3719045D0F00872131 /* LiveTranslateTests.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5E7F2C2F19045D0F00872131 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5E7F2BFE19045D0F00872131 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5E7F2C0519045D0F00872131;
-			remoteInfo = LiveTranslate;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5E7F2C0619045D0F00872131 /* LiveTranslate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveTranslate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,11 +36,7 @@
 		5E7F2C2119045D0F00872131 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		5E7F2C2219045D0F00872131 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		5E7F2C2419045D0F00872131 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		5E7F2C2A19045D0F00872131 /* LiveTranslateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveTranslateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E7F2C2B19045D0F00872131 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		5E7F2C3319045D0F00872131 /* LiveTranslateTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LiveTranslateTests-Info.plist"; sourceTree = "<group>"; };
-		5E7F2C3519045D0F00872131 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		5E7F2C3719045D0F00872131 /* LiveTranslateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveTranslateTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,16 +50,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5E7F2C2719045D0F00872131 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5E7F2C2C19045D0F00872131 /* XCTest.framework in Frameworks */,
-				5E7F2C2E19045D0F00872131 /* UIKit.framework in Frameworks */,
-				5E7F2C2D19045D0F00872131 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -86,7 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				5E7F2C0F19045D0F00872131 /* LiveTranslate */,
-				5E7F2C3119045D0F00872131 /* LiveTranslateTests */,
 				5E7F2C0819045D0F00872131 /* Frameworks */,
 				5E7F2C0719045D0F00872131 /* Products */,
 			);
@@ -96,7 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				5E7F2C0619045D0F00872131 /* LiveTranslate.app */,
-				5E7F2C2A19045D0F00872131 /* LiveTranslateTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -139,24 +108,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5E7F2C3119045D0F00872131 /* LiveTranslateTests */ = {
-			isa = PBXGroup;
-			children = (
-				5E7F2C3719045D0F00872131 /* LiveTranslateTests.m */,
-				5E7F2C3219045D0F00872131 /* Supporting Files */,
-			);
-			path = LiveTranslateTests;
-			sourceTree = "<group>";
-		};
-		5E7F2C3219045D0F00872131 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				5E7F2C3319045D0F00872131 /* LiveTranslateTests-Info.plist */,
-				5E7F2C3419045D0F00872131 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -177,24 +128,6 @@
 			productReference = 5E7F2C0619045D0F00872131 /* LiveTranslate.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5E7F2C2919045D0F00872131 /* LiveTranslateTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5E7F2C3E19045D0F00872131 /* Build configuration list for PBXNativeTarget "LiveTranslateTests" */;
-			buildPhases = (
-				5E7F2C2619045D0F00872131 /* Sources */,
-				5E7F2C2719045D0F00872131 /* Frameworks */,
-				5E7F2C2819045D0F00872131 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5E7F2C3019045D0F00872131 /* PBXTargetDependency */,
-			);
-			name = LiveTranslateTests;
-			productName = LiveTranslateTests;
-			productReference = 5E7F2C2A19045D0F00872131 /* LiveTranslateTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -203,11 +136,6 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "George Lo & Krishnabh Medhi";
-				TargetAttributes = {
-					5E7F2C2919045D0F00872131 = {
-						TestTargetID = 5E7F2C0519045D0F00872131;
-					};
-				};
 			};
 			buildConfigurationList = 5E7F2C0119045D0F00872131 /* Build configuration list for PBXProject "LiveTranslate" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -223,7 +151,6 @@
 			projectRoot = "";
 			targets = (
 				5E7F2C0519045D0F00872131 /* LiveTranslate */,
-				5E7F2C2919045D0F00872131 /* LiveTranslateTests */,
 			);
 		};
 /* End PBXProject section */
@@ -236,14 +163,6 @@
 				5E7F2C2519045D0F00872131 /* Images.xcassets in Resources */,
 				5E7F2C1419045D0F00872131 /* InfoPlist.strings in Resources */,
 				5E7F2C1D19045D0F00872131 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5E7F2C2819045D0F00872131 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5E7F2C3619045D0F00872131 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,23 +180,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5E7F2C2619045D0F00872131 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5E7F2C3819045D0F00872131 /* LiveTranslateTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5E7F2C3019045D0F00872131 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5E7F2C0519045D0F00872131 /* LiveTranslate */;
-			targetProxy = 5E7F2C2F19045D0F00872131 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5E7F2C1219045D0F00872131 /* InfoPlist.strings */ = {
@@ -294,14 +197,6 @@
 				5E7F2C1C19045D0F00872131 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		5E7F2C3419045D0F00872131 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5E7F2C3519045D0F00872131 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -403,46 +298,6 @@
 			};
 			name = Release;
 		};
-		5E7F2C3F19045D0F00872131 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LiveTranslate.app/LiveTranslate";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LiveTranslate/LiveTranslate-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "LiveTranslateTests/LiveTranslateTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		5E7F2C4019045D0F00872131 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LiveTranslate.app/LiveTranslate";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LiveTranslate/LiveTranslate-Prefix.pch";
-				INFOPLIST_FILE = "LiveTranslateTests/LiveTranslateTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -460,14 +315,6 @@
 			buildConfigurations = (
 				5E7F2C3C19045D0F00872131 /* Debug */,
 				5E7F2C3D19045D0F00872131 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-		};
-		5E7F2C3E19045D0F00872131 /* Build configuration list for PBXNativeTarget "LiveTranslateTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5E7F2C3F19045D0F00872131 /* Debug */,
-				5E7F2C4019045D0F00872131 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
