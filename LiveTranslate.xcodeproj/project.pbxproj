@@ -13,10 +13,11 @@
 		5E7F2C1419045D0F00872131 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E7F2C1219045D0F00872131 /* InfoPlist.strings */; };
 		5E7F2C1619045D0F00872131 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C1519045D0F00872131 /* main.m */; };
 		5E7F2C1A19045D0F00872131 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C1919045D0F00872131 /* AppDelegate.m */; };
-		5E7F2C1D19045D0F00872131 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E7F2C1B19045D0F00872131 /* Main.storyboard */; };
-		5E7F2C2019045D0F00872131 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C1F19045D0F00872131 /* FirstViewController.m */; };
-		5E7F2C2319045D0F00872131 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C2219045D0F00872131 /* SecondViewController.m */; };
 		5E7F2C2519045D0F00872131 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E7F2C2419045D0F00872131 /* Images.xcassets */; };
+		5E7F2C43190471E400872131 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C42190471E400872131 /* SignInViewController.m */; };
+		5E7F2C45190472C300872131 /* Storyboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E7F2C44190472C300872131 /* Storyboard_iPhone.storyboard */; };
+		5E7F2C47190474E200872131 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7F2C46190474E200872131 /* QuartzCore.framework */; };
+		5E7F2C4B190475FC00872131 /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C4A190475FC00872131 /* FXBlurView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,13 +31,14 @@
 		5E7F2C1719045D0F00872131 /* LiveTranslate-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LiveTranslate-Prefix.pch"; sourceTree = "<group>"; };
 		5E7F2C1819045D0F00872131 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5E7F2C1919045D0F00872131 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		5E7F2C1C19045D0F00872131 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		5E7F2C1E19045D0F00872131 /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		5E7F2C1F19045D0F00872131 /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		5E7F2C2119045D0F00872131 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		5E7F2C2219045D0F00872131 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		5E7F2C2419045D0F00872131 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5E7F2C2B19045D0F00872131 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		5E7F2C41190471E400872131 /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
+		5E7F2C42190471E400872131 /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		5E7F2C44190472C300872131 /* Storyboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard_iPhone.storyboard; sourceTree = "<group>"; };
+		5E7F2C46190474E200872131 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		5E7F2C49190475FC00872131 /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
+		5E7F2C4A190475FC00872131 /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E7F2C47190474E200872131 /* QuartzCore.framework in Frameworks */,
 				5E7F2C0C19045D0F00872131 /* CoreGraphics.framework in Frameworks */,
 				5E7F2C0E19045D0F00872131 /* UIKit.framework in Frameworks */,
 				5E7F2C0A19045D0F00872131 /* Foundation.framework in Frameworks */,
@@ -73,6 +76,7 @@
 		5E7F2C0819045D0F00872131 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5E7F2C46190474E200872131 /* QuartzCore.framework */,
 				5E7F2C0919045D0F00872131 /* Foundation.framework */,
 				5E7F2C0B19045D0F00872131 /* CoreGraphics.framework */,
 				5E7F2C0D19045D0F00872131 /* UIKit.framework */,
@@ -84,14 +88,11 @@
 		5E7F2C0F19045D0F00872131 /* LiveTranslate */ = {
 			isa = PBXGroup;
 			children = (
+				5E7F2C48190475FC00872131 /* FXBlurView */,
 				5E7F2C1819045D0F00872131 /* AppDelegate.h */,
 				5E7F2C1919045D0F00872131 /* AppDelegate.m */,
-				5E7F2C1B19045D0F00872131 /* Main.storyboard */,
-				5E7F2C1E19045D0F00872131 /* FirstViewController.h */,
-				5E7F2C1F19045D0F00872131 /* FirstViewController.m */,
-				5E7F2C2119045D0F00872131 /* SecondViewController.h */,
-				5E7F2C2219045D0F00872131 /* SecondViewController.m */,
-				5E7F2C2419045D0F00872131 /* Images.xcassets */,
+				5E7F2C41190471E400872131 /* SignInViewController.h */,
+				5E7F2C42190471E400872131 /* SignInViewController.m */,
 				5E7F2C1019045D0F00872131 /* Supporting Files */,
 			);
 			path = LiveTranslate;
@@ -100,12 +101,23 @@
 		5E7F2C1019045D0F00872131 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5E7F2C2419045D0F00872131 /* Images.xcassets */,
+				5E7F2C44190472C300872131 /* Storyboard_iPhone.storyboard */,
 				5E7F2C1119045D0F00872131 /* LiveTranslate-Info.plist */,
 				5E7F2C1219045D0F00872131 /* InfoPlist.strings */,
 				5E7F2C1519045D0F00872131 /* main.m */,
 				5E7F2C1719045D0F00872131 /* LiveTranslate-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5E7F2C48190475FC00872131 /* FXBlurView */ = {
+			isa = PBXGroup;
+			children = (
+				5E7F2C49190475FC00872131 /* FXBlurView.h */,
+				5E7F2C4A190475FC00872131 /* FXBlurView.m */,
+			);
+			path = FXBlurView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,8 +173,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E7F2C2519045D0F00872131 /* Images.xcassets in Resources */,
+				5E7F2C45190472C300872131 /* Storyboard_iPhone.storyboard in Resources */,
 				5E7F2C1419045D0F00872131 /* InfoPlist.strings in Resources */,
-				5E7F2C1D19045D0F00872131 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,9 +185,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E7F2C2319045D0F00872131 /* SecondViewController.m in Sources */,
 				5E7F2C1A19045D0F00872131 /* AppDelegate.m in Sources */,
-				5E7F2C2019045D0F00872131 /* FirstViewController.m in Sources */,
+				5E7F2C4B190475FC00872131 /* FXBlurView.m in Sources */,
+				5E7F2C43190471E400872131 /* SignInViewController.m in Sources */,
 				5E7F2C1619045D0F00872131 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,14 +201,6 @@
 				5E7F2C1319045D0F00872131 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		5E7F2C1B19045D0F00872131 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5E7F2C1C19045D0F00872131 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

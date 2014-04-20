@@ -1,5 +1,5 @@
 //
-//  FirstViewController.h
+//  SignInViewController.h
 //  LiveTranslate
 //
 //  Created by George Lo on 4/20/14.
@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import "FXBlurView.h"
 
-@interface FirstViewController : UIViewController
+@interface SignInViewController : UIViewController <UITextFieldDelegate>
 
 @end
