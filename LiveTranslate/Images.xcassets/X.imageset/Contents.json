@@ -3,11 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "SignInWallpaper.png"
+      "filename" : "60-x.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "60-x@2x.png"
     }
   ],
   "info" : {

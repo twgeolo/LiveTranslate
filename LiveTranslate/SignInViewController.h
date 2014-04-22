@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "FXBlurView.h"
+#import "RegisterViewController.h"
+#import "TabBarViewController.h"
+#import "PDKeychainBindingsController/PDKeychainBindings.h"
 
 @interface SignInViewController : UIViewController <UITextFieldDelegate>
 

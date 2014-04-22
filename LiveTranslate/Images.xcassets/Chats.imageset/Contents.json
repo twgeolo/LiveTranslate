@@ -3,11 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "SignInWallpaper.png"
+      "filename" : "842-chat-bubbles.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "842-chat-bubbles@2x.png"
     }
   ],
   "info" : {

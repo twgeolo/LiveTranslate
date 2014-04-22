@@ -18,6 +18,26 @@
 		5E7F2C45190472C300872131 /* Storyboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E7F2C44190472C300872131 /* Storyboard_iPhone.storyboard */; };
 		5E7F2C47190474E200872131 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7F2C46190474E200872131 /* QuartzCore.framework */; };
 		5E7F2C4B190475FC00872131 /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C4A190475FC00872131 /* FXBlurView.m */; };
+		5E7F2C4E1904D99100872131 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C4D1904D99100872131 /* RegisterViewController.m */; };
+		5E7F2C5119058E8000872131 /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5019058E8000872131 /* TabBarViewController.m */; };
+		5E7F2C5419058FC200872131 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5319058FC200872131 /* FriendsViewController.m */; };
+		5E7F2C5719058FD400872131 /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5619058FD400872131 /* StatusViewController.m */; };
+		5E7F2C5A19058FE100872131 /* ChatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5919058FE100872131 /* ChatsViewController.m */; };
+		5E7F2C5D19058FEC00872131 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5C19058FEC00872131 /* SettingsViewController.m */; };
+		5E7F2C661905CFC200872131 /* YIPopupTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C631905CFC200872131 /* YIPopupTextView.m */; };
+		5E7F2C671905CFC200872131 /* YISSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C651905CFC200872131 /* YISSTextView.m */; };
+		5E7F2C6D1905D12400872131 /* PDKeychainBindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C6A1905D12400872131 /* PDKeychainBindings.m */; };
+		5E7F2C6E1905D12400872131 /* PDKeychainBindingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C6C1905D12400872131 /* PDKeychainBindingsController.m */; };
+		5E7F2C8A1905DACC00872131 /* MRBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C721905DACC00872131 /* MRBlurView.m */; };
+		5E7F2C8B1905DACC00872131 /* UIImage+MRImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C741905DACC00872131 /* UIImage+MRImageEffects.m */; };
+		5E7F2C8C1905DACC00872131 /* MRActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C771905DACC00872131 /* MRActivityIndicatorView.m */; };
+		5E7F2C8D1905DACC00872131 /* MRCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C791905DACC00872131 /* MRCircularProgressView.m */; };
+		5E7F2C8E1905DACC00872131 /* MRIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C7B1905DACC00872131 /* MRIconView.m */; };
+		5E7F2C8F1905DACC00872131 /* MRNavigationBarProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C7D1905DACC00872131 /* MRNavigationBarProgressView.m */; };
+		5E7F2C901905DACC00872131 /* MRProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C7F1905DACC00872131 /* MRProgressOverlayView.m */; };
+		5E7F2C911905DACC00872131 /* MRStopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C821905DACC00872131 /* MRStopButton.m */; };
+		5E7F2C921905DACC00872131 /* MRMessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C861905DACC00872131 /* MRMessageInterceptor.m */; };
+		5E7F2C931905DACC00872131 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C891905DACC00872131 /* MRWeakProxy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +59,49 @@
 		5E7F2C46190474E200872131 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		5E7F2C49190475FC00872131 /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
 		5E7F2C4A190475FC00872131 /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
+		5E7F2C4C1904D99100872131 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		5E7F2C4D1904D99100872131 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		5E7F2C4F19058E8000872131 /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
+		5E7F2C5019058E8000872131 /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
+		5E7F2C5219058FC200872131 /* FriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsViewController.h; sourceTree = "<group>"; };
+		5E7F2C5319058FC200872131 /* FriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsViewController.m; sourceTree = "<group>"; };
+		5E7F2C5519058FD400872131 /* StatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusViewController.h; sourceTree = "<group>"; };
+		5E7F2C5619058FD400872131 /* StatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusViewController.m; sourceTree = "<group>"; };
+		5E7F2C5819058FE100872131 /* ChatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatsViewController.h; sourceTree = "<group>"; };
+		5E7F2C5919058FE100872131 /* ChatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatsViewController.m; sourceTree = "<group>"; };
+		5E7F2C5B19058FEC00872131 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		5E7F2C5C19058FEC00872131 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		5E7F2C621905CFC200872131 /* YIPopupTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YIPopupTextView.h; sourceTree = "<group>"; };
+		5E7F2C631905CFC200872131 /* YIPopupTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YIPopupTextView.m; sourceTree = "<group>"; };
+		5E7F2C641905CFC200872131 /* YISSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YISSTextView.h; sourceTree = "<group>"; };
+		5E7F2C651905CFC200872131 /* YISSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YISSTextView.m; sourceTree = "<group>"; };
+		5E7F2C691905D12400872131 /* PDKeychainBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDKeychainBindings.h; sourceTree = "<group>"; };
+		5E7F2C6A1905D12400872131 /* PDKeychainBindings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDKeychainBindings.m; sourceTree = "<group>"; };
+		5E7F2C6B1905D12400872131 /* PDKeychainBindingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDKeychainBindingsController.h; sourceTree = "<group>"; };
+		5E7F2C6C1905D12400872131 /* PDKeychainBindingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDKeychainBindingsController.m; sourceTree = "<group>"; };
+		5E7F2C711905DACC00872131 /* MRBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRBlurView.h; sourceTree = "<group>"; };
+		5E7F2C721905DACC00872131 /* MRBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRBlurView.m; sourceTree = "<group>"; };
+		5E7F2C731905DACC00872131 /* UIImage+MRImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MRImageEffects.h"; sourceTree = "<group>"; };
+		5E7F2C741905DACC00872131 /* UIImage+MRImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MRImageEffects.m"; sourceTree = "<group>"; };
+		5E7F2C761905DACC00872131 /* MRActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRActivityIndicatorView.h; sourceTree = "<group>"; };
+		5E7F2C771905DACC00872131 /* MRActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRActivityIndicatorView.m; sourceTree = "<group>"; };
+		5E7F2C781905DACC00872131 /* MRCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRCircularProgressView.h; sourceTree = "<group>"; };
+		5E7F2C791905DACC00872131 /* MRCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRCircularProgressView.m; sourceTree = "<group>"; };
+		5E7F2C7A1905DACC00872131 /* MRIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRIconView.h; sourceTree = "<group>"; };
+		5E7F2C7B1905DACC00872131 /* MRIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRIconView.m; sourceTree = "<group>"; };
+		5E7F2C7C1905DACC00872131 /* MRNavigationBarProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRNavigationBarProgressView.h; sourceTree = "<group>"; };
+		5E7F2C7D1905DACC00872131 /* MRNavigationBarProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRNavigationBarProgressView.m; sourceTree = "<group>"; };
+		5E7F2C7E1905DACC00872131 /* MRProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressOverlayView.h; sourceTree = "<group>"; };
+		5E7F2C7F1905DACC00872131 /* MRProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRProgressOverlayView.m; sourceTree = "<group>"; };
+		5E7F2C801905DACC00872131 /* MRStopableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRStopableView.h; sourceTree = "<group>"; };
+		5E7F2C811905DACC00872131 /* MRStopButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRStopButton.h; sourceTree = "<group>"; };
+		5E7F2C821905DACC00872131 /* MRStopButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRStopButton.m; sourceTree = "<group>"; };
+		5E7F2C831905DACC00872131 /* MRProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgress.h; sourceTree = "<group>"; };
+		5E7F2C851905DACC00872131 /* MRMessageInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRMessageInterceptor.h; sourceTree = "<group>"; };
+		5E7F2C861905DACC00872131 /* MRMessageInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRMessageInterceptor.m; sourceTree = "<group>"; };
+		5E7F2C871905DACC00872131 /* MRProgressHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressHelper.h; sourceTree = "<group>"; };
+		5E7F2C881905DACC00872131 /* MRWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRWeakProxy.h; sourceTree = "<group>"; };
+		5E7F2C891905DACC00872131 /* MRWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRWeakProxy.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,11 +151,15 @@
 		5E7F2C0F19045D0F00872131 /* LiveTranslate */ = {
 			isa = PBXGroup;
 			children = (
+				5E7F2C6F1905DACC00872131 /* MRProgress */,
+				5E7F2C681905D12400872131 /* PDKeychainBindingsController */,
+				5E7F2C611905CFC200872131 /* YIPopupTextView */,
 				5E7F2C48190475FC00872131 /* FXBlurView */,
 				5E7F2C1819045D0F00872131 /* AppDelegate.h */,
 				5E7F2C1919045D0F00872131 /* AppDelegate.m */,
-				5E7F2C41190471E400872131 /* SignInViewController.h */,
-				5E7F2C42190471E400872131 /* SignInViewController.m */,
+				5E7F2C5E1905B7D200872131 /* Account */,
+				5E7F2C5F1905B7E700872131 /* TabBar */,
+				5E7F2C601905B7F300872131 /* TabBar Views */,
 				5E7F2C1019045D0F00872131 /* Supporting Files */,
 			);
 			path = LiveTranslate;
@@ -118,6 +185,117 @@
 				5E7F2C4A190475FC00872131 /* FXBlurView.m */,
 			);
 			path = FXBlurView;
+			sourceTree = "<group>";
+		};
+		5E7F2C5E1905B7D200872131 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				5E7F2C4C1904D99100872131 /* RegisterViewController.h */,
+				5E7F2C4D1904D99100872131 /* RegisterViewController.m */,
+				5E7F2C41190471E400872131 /* SignInViewController.h */,
+				5E7F2C42190471E400872131 /* SignInViewController.m */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
+		5E7F2C5F1905B7E700872131 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				5E7F2C4F19058E8000872131 /* TabBarViewController.h */,
+				5E7F2C5019058E8000872131 /* TabBarViewController.m */,
+			);
+			name = TabBar;
+			sourceTree = "<group>";
+		};
+		5E7F2C601905B7F300872131 /* TabBar Views */ = {
+			isa = PBXGroup;
+			children = (
+				5E7F2C5219058FC200872131 /* FriendsViewController.h */,
+				5E7F2C5319058FC200872131 /* FriendsViewController.m */,
+				5E7F2C5519058FD400872131 /* StatusViewController.h */,
+				5E7F2C5619058FD400872131 /* StatusViewController.m */,
+				5E7F2C5819058FE100872131 /* ChatsViewController.h */,
+				5E7F2C5919058FE100872131 /* ChatsViewController.m */,
+				5E7F2C5B19058FEC00872131 /* SettingsViewController.h */,
+				5E7F2C5C19058FEC00872131 /* SettingsViewController.m */,
+			);
+			name = "TabBar Views";
+			sourceTree = "<group>";
+		};
+		5E7F2C611905CFC200872131 /* YIPopupTextView */ = {
+			isa = PBXGroup;
+			children = (
+				5E7F2C621905CFC200872131 /* YIPopupTextView.h */,
+				5E7F2C631905CFC200872131 /* YIPopupTextView.m */,
+				5E7F2C641905CFC200872131 /* YISSTextView.h */,
+				5E7F2C651905CFC200872131 /* YISSTextView.m */,
+			);
+			path = YIPopupTextView;
+			sourceTree = "<group>";
+		};
+		5E7F2C681905D12400872131 /* PDKeychainBindingsController */ = {
+			isa = PBXGroup;
+			children = (
+				5E7F2C691905D12400872131 /* PDKeychainBindings.h */,
+				5E7F2C6A1905D12400872131 /* PDKeychainBindings.m */,
+				5E7F2C6B1905D12400872131 /* PDKeychainBindingsController.h */,
+				5E7F2C6C1905D12400872131 /* PDKeychainBindingsController.m */,
+			);
+			path = PDKeychainBindingsController;
+			sourceTree = "<group>";
+		};
+		5E7F2C6F1905DACC00872131 /* MRProgress */ = {
+			isa = PBXGroup;
+			children = (
+				5E7F2C701905DACC00872131 /* Blur */,
+				5E7F2C751905DACC00872131 /* Components */,
+				5E7F2C831905DACC00872131 /* MRProgress.h */,
+				5E7F2C841905DACC00872131 /* Utils */,
+			);
+			path = MRProgress;
+			sourceTree = "<group>";
+		};
+		5E7F2C701905DACC00872131 /* Blur */ = {
+			isa = PBXGroup;
+			children = (
+				5E7F2C711905DACC00872131 /* MRBlurView.h */,
+				5E7F2C721905DACC00872131 /* MRBlurView.m */,
+				5E7F2C731905DACC00872131 /* UIImage+MRImageEffects.h */,
+				5E7F2C741905DACC00872131 /* UIImage+MRImageEffects.m */,
+			);
+			path = Blur;
+			sourceTree = "<group>";
+		};
+		5E7F2C751905DACC00872131 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5E7F2C761905DACC00872131 /* MRActivityIndicatorView.h */,
+				5E7F2C771905DACC00872131 /* MRActivityIndicatorView.m */,
+				5E7F2C781905DACC00872131 /* MRCircularProgressView.h */,
+				5E7F2C791905DACC00872131 /* MRCircularProgressView.m */,
+				5E7F2C7A1905DACC00872131 /* MRIconView.h */,
+				5E7F2C7B1905DACC00872131 /* MRIconView.m */,
+				5E7F2C7C1905DACC00872131 /* MRNavigationBarProgressView.h */,
+				5E7F2C7D1905DACC00872131 /* MRNavigationBarProgressView.m */,
+				5E7F2C7E1905DACC00872131 /* MRProgressOverlayView.h */,
+				5E7F2C7F1905DACC00872131 /* MRProgressOverlayView.m */,
+				5E7F2C801905DACC00872131 /* MRStopableView.h */,
+				5E7F2C811905DACC00872131 /* MRStopButton.h */,
+				5E7F2C821905DACC00872131 /* MRStopButton.m */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		5E7F2C841905DACC00872131 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5E7F2C851905DACC00872131 /* MRMessageInterceptor.h */,
+				5E7F2C861905DACC00872131 /* MRMessageInterceptor.m */,
+				5E7F2C871905DACC00872131 /* MRProgressHelper.h */,
+				5E7F2C881905DACC00872131 /* MRWeakProxy.h */,
+				5E7F2C891905DACC00872131 /* MRWeakProxy.m */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,10 +363,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E7F2C901905DACC00872131 /* MRProgressOverlayView.m in Sources */,
+				5E7F2C4E1904D99100872131 /* RegisterViewController.m in Sources */,
+				5E7F2C921905DACC00872131 /* MRMessageInterceptor.m in Sources */,
+				5E7F2C8B1905DACC00872131 /* UIImage+MRImageEffects.m in Sources */,
 				5E7F2C1A19045D0F00872131 /* AppDelegate.m in Sources */,
+				5E7F2C911905DACC00872131 /* MRStopButton.m in Sources */,
+				5E7F2C8E1905DACC00872131 /* MRIconView.m in Sources */,
+				5E7F2C8C1905DACC00872131 /* MRActivityIndicatorView.m in Sources */,
+				5E7F2C661905CFC200872131 /* YIPopupTextView.m in Sources */,
+				5E7F2C5419058FC200872131 /* FriendsViewController.m in Sources */,
+				5E7F2C5A19058FE100872131 /* ChatsViewController.m in Sources */,
+				5E7F2C8F1905DACC00872131 /* MRNavigationBarProgressView.m in Sources */,
+				5E7F2C6E1905D12400872131 /* PDKeychainBindingsController.m in Sources */,
+				5E7F2C671905CFC200872131 /* YISSTextView.m in Sources */,
 				5E7F2C4B190475FC00872131 /* FXBlurView.m in Sources */,
+				5E7F2C5719058FD400872131 /* StatusViewController.m in Sources */,
 				5E7F2C43190471E400872131 /* SignInViewController.m in Sources */,
+				5E7F2C931905DACC00872131 /* MRWeakProxy.m in Sources */,
+				5E7F2C5D19058FEC00872131 /* SettingsViewController.m in Sources */,
+				5E7F2C8D1905DACC00872131 /* MRCircularProgressView.m in Sources */,
+				5E7F2C6D1905D12400872131 /* PDKeychainBindings.m in Sources */,
+				5E7F2C5119058E8000872131 /* TabBarViewController.m in Sources */,
 				5E7F2C1619045D0F00872131 /* main.m in Sources */,
+				5E7F2C8A1905DACC00872131 /* MRBlurView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

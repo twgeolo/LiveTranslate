@@ -12,7 +12,10 @@
 
 @end
 
-@implementation SignInViewController
+@implementation SignInViewController {
+    NSString *username;
+    NSString *password;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,6 +68,8 @@
     NSInteger TFWidth = ScreenWidth-60;
     NSInteger TFHeight = 44;
     UITextField *userTF = [[UITextField alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, nameLabel.frame.origin.y+22+40, TFWidth, TFHeight)];
+    userTF.tag = 0;
+    userTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
     userTF.delegate = self;
     userTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     userTF.returnKeyType = UIReturnKeyDone;
@@ -85,6 +90,7 @@
     
     // Setup Password Field
     UITextField *passTF = [[UITextField alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, userTF.frame.origin.y+40+20, TFWidth, TFHeight)];
+    passTF.tag = 1;
     passTF.secureTextEntry = YES;
     passTF.delegate = self;
     passTF.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -92,7 +98,7 @@
     passTF.userInteractionEnabled = YES;
     passTF.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.75];
     passTF.textColor = [UIColor whiteColor];
-    passTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:0.8 alpha:1.0]}];
+    passTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"PIN" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:0.8 alpha:1.0]}];
     UIView *passIconBox = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight+20, TFHeight)];
     UIImageView *passIconIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Password"]];
     passIconIV.frame = CGRectMake(10, 9, 26, 26);
@@ -111,6 +117,7 @@
     [signInBtn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
     signInBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     [signInBtn setTitle:@"SIGN IN" forState:UIControlStateNormal];
+    [signInBtn addTarget:self action:@selector(signIn:) forControlEvents:UIControlEventTouchUpInside];
     
     // Setup Sign Up part
     UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, signInBtn.frame.origin.y+40+20, TFWidth, TFHeight)];
@@ -118,6 +125,8 @@
     hintLabel.text = @"Don't have an account?";
     hintLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1];
     hintLabel.textAlignment = NSTextAlignmentCenter;
+    hintLabel.userInteractionEnabled = YES;
+    [hintLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toRegister:)]];
     UILabel *registerLabel = [[UILabel alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, hintLabel.frame.origin.y+20, TFWidth, TFHeight)];
     registerLabel.font = [UIFont systemFontOfSize:15];
     NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:@"Register now"];
@@ -127,8 +136,10 @@
     registerLabel.attributedText = attributeString;
     registerLabel.textColor = [UIColor colorWithWhite:1 alpha:1];
     registerLabel.textAlignment = NSTextAlignmentCenter;
+    registerLabel.userInteractionEnabled = YES;
+    [registerLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toRegister:)]];
     
-    // Add Background ImageView
+    // Add Views on self
     [self.view addSubview:backgroundIV];
     [self.view addSubview:userTF];
     [self.view addSubview:passTF];
@@ -137,7 +148,88 @@
     [self.view addSubview:registerLabel];
 }
 
+- (IBAction)signIn:(id)sender {
+    // Resign First Responder if any
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }];
+    for (UIView *subView in self.view.subviews) {
+        subView.isFirstResponder ? [subView resignFirstResponder] : 0;
+    }
+    
+    // Check for empty fields
+    if (username.length <= 0 || password.length <= 0) {
+        [[[UIAlertView alloc] initWithTitle:nil message:@"Please fill in your username and password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+        return;
+    }
+    
+    MRProgressOverlayView *overlayView = [MRProgressOverlayView showOverlayAddedTo:self.view animated:YES];
+    overlayView.titleLabelText = @"Signing In...";
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *urlString = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/login?name=%@&pin=%@",username,password] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSLog(@"%@",urlString);
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
+                [[PDKeychainBindings sharedKeychainBindings] setObject:username forKey:@"Username"];
+                [[PDKeychainBindings sharedKeychainBindings] setObject:password forKey:@"PIN"];
+                data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/profile?username=%@",username]]];
+                dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                [UserDefaults setInteger:[[dict objectForKey:@"user_id"] integerValue] forKey:@"id"];
+                [UserDefaults setObject:[dict objectForKey:@"user_realName"] forKey:@"realName"];
+                [UserDefaults setObject:[dict objectForKey:@"user_gender"] forKey:@"gender"];
+                [UserDefaults setObject:[dict objectForKey:@"user_phoneNumber"] forKey:@"phoneNumber"];
+                [UserDefaults setObject:[dict objectForKey:@"user_status"] forKey:@"status"];
+                [UserDefaults synchronize];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [overlayView dismiss:YES];
+                    TabBarViewController *tbvc = [[TabBarViewController alloc] init];
+                    tbvc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+                    [self presentViewController:tbvc animated:YES completion:nil];
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [overlayView dismiss:YES];
+                    [[[UIAlertView alloc] initWithTitle:@"Failed" message:[dict objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                });
+            }
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                overlayView.mode = MRProgressOverlayViewModeCross;
+                overlayView.titleLabelText = @"Network Error\nPlease try again later";
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [overlayView dismiss:YES];
+                });
+            });
+        }
+    });
+}
+
+- (IBAction)toRegister:(id)sender {
+    RegisterViewController *rvc = [[RegisterViewController alloc] init];
+    rvc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:rvc animated:YES completion:nil];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.frame = CGRectMake(0, -210, ScreenWidth, ScreenHeight);
+    }];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField.tag == 0) {
+        username = textField.text;
+    } else if (textField.tag == 1) {
+        password = textField.text;
+    }
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    }];
     [textField resignFirstResponder];
     return YES;
 }
@@ -147,16 +239,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
