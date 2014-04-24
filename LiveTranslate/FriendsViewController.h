@@ -7,6 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AddressBook/AddressBook.h>
+#import "MRProgress.h"
+#import "FMDatabase.h"
+#import "Person.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface FriendsViewController : UITableViewController
 

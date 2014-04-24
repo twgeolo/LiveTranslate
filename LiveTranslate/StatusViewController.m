@@ -31,6 +31,11 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"Status";
+    UIButton *sideButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [sideButton setImage:[UIImage imageNamed:@"SideMenu"] forState:UIControlStateNormal];
+    sideButton.frame = CGRectMake(0, 0, 26, 26);
+    [sideButton addTarget:self action:@selector(presentLeftMenuViewController:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:sideButton];
     
     headerArray = [[NSMutableArray alloc] initWithObjects:@"Your current status is:", @"Select your new status", @"", nil];
     if ([UserDefaults objectForKey:@"Status"]==nil) {
@@ -103,31 +108,115 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        YIPopupTextView* popupTextView = [[YIPopupTextView alloc] initWithPlaceHolder:@"input here" maxCount:140 buttonStyle:YIPopupTextViewButtonStyleRightCancelAndDone];
+        YIPopupTextView* popupTextView = [[YIPopupTextView alloc] initWithPlaceHolder:@"Enter your status here" maxCount:140 buttonStyle:YIPopupTextViewButtonStyleRightCancelAndDone];
         popupTextView.delegate = self;
-        popupTextView.caretShiftGestureEnabled = YES;   // default = NO
-        popupTextView.placeholder = @"Enter your status here";
+        popupTextView.caretShiftGestureEnabled = YES;
         [popupTextView showInViewController:self]; // recommended, especially for iOS7
+    } else if (indexPath.section == 1) {
+        MRProgressOverlayView *overlayView = [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view animated:YES];
+        overlayView.titleLabelText = @"Setting you status";
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            NSString *urlString = [NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/setStatus?user=%@&statusMsg=%@", [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], [tableView cellForRowAtIndexPath:indexPath].textLabel];
+            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
+            if (data) {
+                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[titleArray objectAtIndex:0] replaceObjectAtIndex:indexPath.row withObject:[tableView cellForRowAtIndexPath:indexPath].textLabel];
+                        [UserDefaults setObject:[tableView cellForRowAtIndexPath:indexPath].textLabel forKey:@"Status"];
+                        [UserDefaults synchronize];
+                        [self.tableView reloadData];
+                        overlayView.mode = MRProgressOverlayViewModeCheckmark;
+                        overlayView.titleLabelText = @"Done";
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [overlayView dismiss:YES];
+                        });
+                    });
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[[UIAlertView alloc] initWithTitle:@"Failed" message:[dict objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                        [overlayView dismiss:YES];
+                    });
+                }
+            } else {
+                overlayView.mode = MRProgressOverlayViewModeCross;
+                overlayView.titleLabelText = @"Network Error";
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [overlayView dismiss:YES];
+                });
+            }
+        });
+    } else {
+        MRProgressOverlayView *overlayView = [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view animated:YES];
+        overlayView.titleLabelText = @"Clearing you status";
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            NSString *urlString = [NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/setStatus?user=%@&statusMsg=%@", [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], @""];
+            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
+            if (data) {
+                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[titleArray objectAtIndex:0] replaceObjectAtIndex:indexPath.row withObject:@""];
+                        [UserDefaults setObject:@"" forKey:@"Status"];
+                        [UserDefaults synchronize];
+                        [self.tableView reloadData];
+                        overlayView.mode = MRProgressOverlayViewModeCheckmark;
+                        overlayView.titleLabelText = @"Done";
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [overlayView dismiss:YES];
+                        });
+                    });
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[[UIAlertView alloc] initWithTitle:@"Failed" message:[dict objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                        [overlayView dismiss:YES];
+                    });
+                }
+            } else {
+                overlayView.mode = MRProgressOverlayViewModeCross;
+                overlayView.titleLabelText = @"Network Error";
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [overlayView dismiss:YES];
+                });
+            }
+        });
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)popupTextView:(YIPopupTextView *)textView willDismissWithText:(NSString *)text cancelled:(BOOL)cancelled {
     if (!cancelled) {
+        MRProgressOverlayView *overlayView = [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view animated:YES];
+        overlayView.mode = MRProgressOverlayViewModeIndeterminate;
+        overlayView.titleLabelText = @"Setting your status";
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString *urlString = [NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/setStatus?user=%@&statusmsg=%@",[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"name"],text];
             NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[titleArray objectAtIndex:0] replaceObjectAtIndex:0 withObject:text];
-                    [UserDefaults setObject:text forKey:@"Status"];
-                    [UserDefaults synchronize];
-                    [self.tableView reloadData];
-                });
+            if (data) {
+                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[titleArray objectAtIndex:0] replaceObjectAtIndex:0 withObject:text];
+                        [UserDefaults setObject:text forKey:@"Status"];
+                        [UserDefaults synchronize];
+                        [self.tableView reloadData];
+                        overlayView.mode = MRProgressOverlayViewModeCheckmark;
+                        overlayView.titleLabelText = @"Done";
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [overlayView dismiss:YES];
+                        });
+                    });
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[[UIAlertView alloc] initWithTitle:@"Failed" message:[dict objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                        [overlayView dismiss:YES];
+                    });
+                }
             } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[[UIAlertView alloc] initWithTitle:@"Failed" message:[dict objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                overlayView.mode = MRProgressOverlayViewModeCross;
+                overlayView.titleLabelText = @"Network Error";
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [overlayView dismiss:YES];
                 });
             }
         });

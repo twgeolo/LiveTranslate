@@ -12,7 +12,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    FMDatabase *db = [FMDatabase databaseWithPath:[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"LiveTranslate.db"]];
+    if ([db open]) {
+        [db executeUpdate:@"CREATE TABLE IF NOT EXISTS Friends (userName TEXT, realName TEXT, displayName TEXT, status TEXT, phone TEXT, gender INT, image BLOB)"];
+        [db executeUpdate:@"CREATE TABLE IF NOT EXISTS Messages (toUserName TEXT, message TEXT, TIMESTAMP TEXT)"];
+    }
+    [db close];
+    
     return YES;
 }
 							

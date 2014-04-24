@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E573325190838B100BFFCDC /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57331B190838B100BFFCDC /* FMDatabase.m */; };
+		5E573326190838B100BFFCDC /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57331D190838B100BFFCDC /* FMDatabaseAdditions.m */; };
+		5E573327190838B100BFFCDC /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57331F190838B100BFFCDC /* FMDatabasePool.m */; };
+		5E573328190838B100BFFCDC /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E573321190838B100BFFCDC /* FMDatabaseQueue.m */; };
+		5E573329190838B100BFFCDC /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E573324190838B100BFFCDC /* FMResultSet.m */; };
+		5E57332C19083AF700BFFCDC /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57332B19083AF700BFFCDC /* Person.m */; };
+		5E57332E190899F200BFFCDC /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E57332D190899F200BFFCDC /* libsqlite3.0.dylib */; };
+		5E62E3221909A7610029BA9E /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E62E31D1909A7610029BA9E /* RECommonFunctions.m */; };
+		5E62E3231909A7610029BA9E /* RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E62E31F1909A7610029BA9E /* RESideMenu.m */; };
+		5E62E3241909A7610029BA9E /* UIViewController+RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E62E3211909A7610029BA9E /* UIViewController+RESideMenu.m */; };
+		5E62E3271909A76C0029BA9E /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E62E3261909A76C0029BA9E /* SideMenuViewController.m */; };
+		5E7E64AE1906E8E700DBB666 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7E64AD1906E8E700DBB666 /* AddressBook.framework */; };
 		5E7F2C0A19045D0F00872131 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7F2C0919045D0F00872131 /* Foundation.framework */; };
 		5E7F2C0C19045D0F00872131 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7F2C0B19045D0F00872131 /* CoreGraphics.framework */; };
 		5E7F2C0E19045D0F00872131 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7F2C0D19045D0F00872131 /* UIKit.framework */; };
@@ -19,7 +31,6 @@
 		5E7F2C47190474E200872131 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7F2C46190474E200872131 /* QuartzCore.framework */; };
 		5E7F2C4B190475FC00872131 /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C4A190475FC00872131 /* FXBlurView.m */; };
 		5E7F2C4E1904D99100872131 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C4D1904D99100872131 /* RegisterViewController.m */; };
-		5E7F2C5119058E8000872131 /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5019058E8000872131 /* TabBarViewController.m */; };
 		5E7F2C5419058FC200872131 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5319058FC200872131 /* FriendsViewController.m */; };
 		5E7F2C5719058FD400872131 /* StatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5619058FD400872131 /* StatusViewController.m */; };
 		5E7F2C5A19058FE100872131 /* ChatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5919058FE100872131 /* ChatsViewController.m */; };
@@ -41,6 +52,29 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E57331A190838B100BFFCDC /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		5E57331B190838B100BFFCDC /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		5E57331C190838B100BFFCDC /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		5E57331D190838B100BFFCDC /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		5E57331E190838B100BFFCDC /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		5E57331F190838B100BFFCDC /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		5E573320190838B100BFFCDC /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		5E573321190838B100BFFCDC /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		5E573322190838B100BFFCDC /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		5E573323190838B100BFFCDC /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		5E573324190838B100BFFCDC /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		5E57332A19083AF700BFFCDC /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		5E57332B19083AF700BFFCDC /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		5E57332D190899F200BFFCDC /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		5E62E31C1909A7610029BA9E /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECommonFunctions.h; sourceTree = "<group>"; };
+		5E62E31D1909A7610029BA9E /* RECommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECommonFunctions.m; sourceTree = "<group>"; };
+		5E62E31E1909A7610029BA9E /* RESideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RESideMenu.h; sourceTree = "<group>"; };
+		5E62E31F1909A7610029BA9E /* RESideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RESideMenu.m; sourceTree = "<group>"; };
+		5E62E3201909A7610029BA9E /* UIViewController+RESideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RESideMenu.h"; sourceTree = "<group>"; };
+		5E62E3211909A7610029BA9E /* UIViewController+RESideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RESideMenu.m"; sourceTree = "<group>"; };
+		5E62E3251909A76C0029BA9E /* SideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideMenuViewController.h; sourceTree = "<group>"; };
+		5E62E3261909A76C0029BA9E /* SideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
+		5E7E64AD1906E8E700DBB666 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		5E7F2C0619045D0F00872131 /* LiveTranslate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveTranslate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E7F2C0919045D0F00872131 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5E7F2C0B19045D0F00872131 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -61,8 +95,6 @@
 		5E7F2C4A190475FC00872131 /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
 		5E7F2C4C1904D99100872131 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		5E7F2C4D1904D99100872131 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
-		5E7F2C4F19058E8000872131 /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
-		5E7F2C5019058E8000872131 /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
 		5E7F2C5219058FC200872131 /* FriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsViewController.h; sourceTree = "<group>"; };
 		5E7F2C5319058FC200872131 /* FriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsViewController.m; sourceTree = "<group>"; };
 		5E7F2C5519058FD400872131 /* StatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusViewController.h; sourceTree = "<group>"; };
@@ -109,6 +141,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E57332E190899F200BFFCDC /* libsqlite3.0.dylib in Frameworks */,
+				5E7E64AE1906E8E700DBB666 /* AddressBook.framework in Frameworks */,
 				5E7F2C47190474E200872131 /* QuartzCore.framework in Frameworks */,
 				5E7F2C0C19045D0F00872131 /* CoreGraphics.framework in Frameworks */,
 				5E7F2C0E19045D0F00872131 /* UIKit.framework in Frameworks */,
@@ -119,6 +153,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E573319190838B100BFFCDC /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				5E57331A190838B100BFFCDC /* FMDatabase.h */,
+				5E57331B190838B100BFFCDC /* FMDatabase.m */,
+				5E57331C190838B100BFFCDC /* FMDatabaseAdditions.h */,
+				5E57331D190838B100BFFCDC /* FMDatabaseAdditions.m */,
+				5E57331E190838B100BFFCDC /* FMDatabasePool.h */,
+				5E57331F190838B100BFFCDC /* FMDatabasePool.m */,
+				5E573320190838B100BFFCDC /* FMDatabaseQueue.h */,
+				5E573321190838B100BFFCDC /* FMDatabaseQueue.m */,
+				5E573322190838B100BFFCDC /* FMDB.h */,
+				5E573323190838B100BFFCDC /* FMResultSet.h */,
+				5E573324190838B100BFFCDC /* FMResultSet.m */,
+			);
+			path = FMDB;
+			sourceTree = "<group>";
+		};
+		5E62E31B1909A7610029BA9E /* RESideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				5E62E31C1909A7610029BA9E /* RECommonFunctions.h */,
+				5E62E31D1909A7610029BA9E /* RECommonFunctions.m */,
+				5E62E31E1909A7610029BA9E /* RESideMenu.h */,
+				5E62E31F1909A7610029BA9E /* RESideMenu.m */,
+				5E62E3201909A7610029BA9E /* UIViewController+RESideMenu.h */,
+				5E62E3211909A7610029BA9E /* UIViewController+RESideMenu.m */,
+			);
+			path = RESideMenu;
+			sourceTree = "<group>";
+		};
 		5E7F2BFD19045D0F00872131 = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +204,8 @@
 		5E7F2C0819045D0F00872131 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5E57332D190899F200BFFCDC /* libsqlite3.0.dylib */,
+				5E7E64AD1906E8E700DBB666 /* AddressBook.framework */,
 				5E7F2C46190474E200872131 /* QuartzCore.framework */,
 				5E7F2C0919045D0F00872131 /* Foundation.framework */,
 				5E7F2C0B19045D0F00872131 /* CoreGraphics.framework */,
@@ -151,6 +218,8 @@
 		5E7F2C0F19045D0F00872131 /* LiveTranslate */ = {
 			isa = PBXGroup;
 			children = (
+				5E62E31B1909A7610029BA9E /* RESideMenu */,
+				5E573319190838B100BFFCDC /* FMDB */,
 				5E7F2C6F1905DACC00872131 /* MRProgress */,
 				5E7F2C681905D12400872131 /* PDKeychainBindingsController */,
 				5E7F2C611905CFC200872131 /* YIPopupTextView */,
@@ -158,8 +227,7 @@
 				5E7F2C1819045D0F00872131 /* AppDelegate.h */,
 				5E7F2C1919045D0F00872131 /* AppDelegate.m */,
 				5E7F2C5E1905B7D200872131 /* Account */,
-				5E7F2C5F1905B7E700872131 /* TabBar */,
-				5E7F2C601905B7F300872131 /* TabBar Views */,
+				5E7F2C601905B7F300872131 /* Main Views */,
 				5E7F2C1019045D0F00872131 /* Supporting Files */,
 			);
 			path = LiveTranslate;
@@ -198,20 +266,15 @@
 			name = Account;
 			sourceTree = "<group>";
 		};
-		5E7F2C5F1905B7E700872131 /* TabBar */ = {
+		5E7F2C601905B7F300872131 /* Main Views */ = {
 			isa = PBXGroup;
 			children = (
-				5E7F2C4F19058E8000872131 /* TabBarViewController.h */,
-				5E7F2C5019058E8000872131 /* TabBarViewController.m */,
-			);
-			name = TabBar;
-			sourceTree = "<group>";
-		};
-		5E7F2C601905B7F300872131 /* TabBar Views */ = {
-			isa = PBXGroup;
-			children = (
+				5E62E3251909A76C0029BA9E /* SideMenuViewController.h */,
+				5E62E3261909A76C0029BA9E /* SideMenuViewController.m */,
 				5E7F2C5219058FC200872131 /* FriendsViewController.h */,
 				5E7F2C5319058FC200872131 /* FriendsViewController.m */,
+				5E57332A19083AF700BFFCDC /* Person.h */,
+				5E57332B19083AF700BFFCDC /* Person.m */,
 				5E7F2C5519058FD400872131 /* StatusViewController.h */,
 				5E7F2C5619058FD400872131 /* StatusViewController.m */,
 				5E7F2C5819058FE100872131 /* ChatsViewController.h */,
@@ -219,7 +282,7 @@
 				5E7F2C5B19058FEC00872131 /* SettingsViewController.h */,
 				5E7F2C5C19058FEC00872131 /* SettingsViewController.m */,
 			);
-			name = "TabBar Views";
+			name = "Main Views";
 			sourceTree = "<group>";
 		};
 		5E7F2C611905CFC200872131 /* YIPopupTextView */ = {
@@ -326,6 +389,11 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "George Lo & Krishnabh Medhi";
+				TargetAttributes = {
+					5E7F2C0519045D0F00872131 = {
+						DevelopmentTeam = ZP97V36F9T;
+					};
+				};
 			};
 			buildConfigurationList = 5E7F2C0119045D0F00872131 /* Build configuration list for PBXProject "LiveTranslate" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -375,18 +443,27 @@
 				5E7F2C5419058FC200872131 /* FriendsViewController.m in Sources */,
 				5E7F2C5A19058FE100872131 /* ChatsViewController.m in Sources */,
 				5E7F2C8F1905DACC00872131 /* MRNavigationBarProgressView.m in Sources */,
+				5E62E3221909A7610029BA9E /* RECommonFunctions.m in Sources */,
+				5E57332C19083AF700BFFCDC /* Person.m in Sources */,
 				5E7F2C6E1905D12400872131 /* PDKeychainBindingsController.m in Sources */,
+				5E573327190838B100BFFCDC /* FMDatabasePool.m in Sources */,
+				5E573325190838B100BFFCDC /* FMDatabase.m in Sources */,
 				5E7F2C671905CFC200872131 /* YISSTextView.m in Sources */,
 				5E7F2C4B190475FC00872131 /* FXBlurView.m in Sources */,
+				5E573328190838B100BFFCDC /* FMDatabaseQueue.m in Sources */,
+				5E573329190838B100BFFCDC /* FMResultSet.m in Sources */,
 				5E7F2C5719058FD400872131 /* StatusViewController.m in Sources */,
+				5E62E3271909A76C0029BA9E /* SideMenuViewController.m in Sources */,
 				5E7F2C43190471E400872131 /* SignInViewController.m in Sources */,
 				5E7F2C931905DACC00872131 /* MRWeakProxy.m in Sources */,
+				5E62E3231909A7610029BA9E /* RESideMenu.m in Sources */,
 				5E7F2C5D19058FEC00872131 /* SettingsViewController.m in Sources */,
 				5E7F2C8D1905DACC00872131 /* MRCircularProgressView.m in Sources */,
+				5E573326190838B100BFFCDC /* FMDatabaseAdditions.m in Sources */,
 				5E7F2C6D1905D12400872131 /* PDKeychainBindings.m in Sources */,
-				5E7F2C5119058E8000872131 /* TabBarViewController.m in Sources */,
 				5E7F2C1619045D0F00872131 /* main.m in Sources */,
 				5E7F2C8A1905DACC00872131 /* MRBlurView.m in Sources */,
+				5E62E3241909A7610029BA9E /* UIViewController+RESideMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,9 +556,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveTranslate/LiveTranslate-Prefix.pch";
 				INFOPLIST_FILE = "LiveTranslate/LiveTranslate-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -492,9 +571,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveTranslate/LiveTranslate-Prefix.pch";
 				INFOPLIST_FILE = "LiveTranslate/LiveTranslate-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -519,6 +600,7 @@
 				5E7F2C3D19045D0F00872131 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

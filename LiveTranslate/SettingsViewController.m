@@ -27,11 +27,12 @@
 {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.title = @"Settings";
+    UIButton *sideButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [sideButton setImage:[UIImage imageNamed:@"SideMenu"] forState:UIControlStateNormal];
+    sideButton.frame = CGRectMake(0, 0, 26, 26);
+    [sideButton addTarget:self action:@selector(presentLeftMenuViewController:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:sideButton];
 }
 
 - (void)didReceiveMemoryWarning

@@ -8,6 +8,9 @@
 
 #import "SignInViewController.h"
 
+#define FORCE_LOGIN 1
+#define DUMMY_DATA 0
+
 @interface SignInViewController ()
 
 @end
@@ -34,6 +37,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSArray *sampleArray = [NSArray arrayWithObjects:
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=ksawant&pin=123456&phone=805-410-2334&realname=Kartik%20Sawant&gender=M",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=wtsai&pin=123456&phone=206-973-9963&realname=Wesley%20Tsai&gender=M",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=mlee&pin=123456&phone=513-720-7749&realname=Ming%20Lee&gender=F",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=ksu&pin=123456&phone=604-655-7567&realname=Kevin%20Su&gender=M",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=ahsu&pin=123456&phone=770-558-0602&realname=Angel%20Hsu&gender=F",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=kmedhi&pin=123456&phone=505-652-2451&realname=Krishnabh%20Medhi&gender=M",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=dcheng&pin=123456&phone=949-500-4593&realname=Daniel%20Cheng&gender=M",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=tchu&pin=123456&phone=858-692-0632&realname=Terry%20Chu&gender=M",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=bcheng&pin=123456&phone=949-378-6669&realname=Brian%20Cheng&gender=M",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=tkembura&pin=123456&phone=312-780-9832&realname=Tatum%20Kembura&gender=F",
+                            nil];
+    for (NSString *sample in sampleArray) {
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:sample]];
+        if (data) {
+#if DUMMY_DATA
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSLog(@"%@ - %@\n",[dict objectForKey:@"success"],[dict objectForKey:@"message"]);
+#endif
+        }
+    }
     
     // Set up Background ImageView
     UIImage *wallpaper = [UIImage imageNamed:@"SignInWallpaper"];
@@ -148,6 +173,24 @@
     [self.view addSubview:registerLabel];
 }
 
+- (void)toMain {
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[FriendsViewController alloc] init]];
+    SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
+    
+    RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navigationController
+                                                                    leftMenuViewController:leftMenuViewController
+                                                                   rightMenuViewController:nil];
+    sideMenuViewController.backgroundImage = [UIImage imageNamed:@"SideMenuWallpaper"];
+    sideMenuViewController.menuPreferredStatusBarStyle = 1; // UIStatusBarStyleLightContent
+    sideMenuViewController.contentViewShadowColor = [UIColor blackColor];
+    sideMenuViewController.contentViewShadowOffset = CGSizeMake(0, 0);
+    sideMenuViewController.contentViewShadowOpacity = 0.6;
+    sideMenuViewController.contentViewShadowRadius = 12;
+    sideMenuViewController.contentViewShadowEnabled = YES;
+    sideMenuViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:sideMenuViewController animated:YES completion:nil];
+}
+
 - (IBAction)signIn:(id)sender {
     // Resign First Responder if any
     [UIView animateWithDuration:0.3 animations:^{
@@ -156,6 +199,10 @@
     for (UIView *subView in self.view.subviews) {
         subView.isFirstResponder ? [subView resignFirstResponder] : 0;
     }
+ 
+#if FORCE_LOGIN
+    [self toMain];
+#else
     
     // Check for empty fields
     if (username.length <= 0 || password.length <= 0) {
@@ -184,9 +231,7 @@
                 [UserDefaults synchronize];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [overlayView dismiss:YES];
-                    TabBarViewController *tbvc = [[TabBarViewController alloc] init];
-                    tbvc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-                    [self presentViewController:tbvc animated:YES completion:nil];
+                    [self toMain];
                 });
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -197,13 +242,15 @@
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 overlayView.mode = MRProgressOverlayViewModeCross;
-                overlayView.titleLabelText = @"Network Error\nPlease try again later";
+                overlayView.titleLabelText = @"Network Error\nTry again later";
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [overlayView dismiss:YES];
                 });
             });
         }
     });
+    
+#endif
 }
 
 - (IBAction)toRegister:(id)sender {

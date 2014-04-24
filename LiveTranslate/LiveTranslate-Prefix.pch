@@ -13,6 +13,8 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import "RESideMenu.h"
+    #import "SideMenuViewController.h"
 #endif
 
 // Useful Macros

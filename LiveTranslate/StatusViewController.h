@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "YIPopupTextView.h"
+#import "MRProgress.h"
 #import "PDKeychainBindingsController/PDKeychainBindings.h"
 
 @interface StatusViewController : UITableViewController <YIPopupTextViewDelegate>
