@@ -608,7 +608,7 @@ typedef enum {
 - (void)updateCount
 {
     NSUInteger textCount = [self.text length];
-    _countLabel.text = [NSString stringWithFormat:@"%d", _maxCount-textCount];
+    _countLabel.text = [NSString stringWithFormat:@"%u", _maxCount-textCount];
     
     if (_maxCount > 0 && textCount > _maxCount) {
         _acceptButton.enabled = NO;

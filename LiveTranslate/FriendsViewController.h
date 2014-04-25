@@ -11,8 +11,10 @@
 #import "MRProgress.h"
 #import "FMDatabase.h"
 #import "Person.h"
+#import "FXBlurView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIViewController+CWPopup.h"
 
-@interface FriendsViewController : UITableViewController
+@interface FriendsViewController : UITableViewController <UIGestureRecognizerDelegate>
 
 @end

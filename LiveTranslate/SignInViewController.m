@@ -8,7 +8,7 @@
 
 #import "SignInViewController.h"
 
-#define FORCE_LOGIN 1
+#define FORCE_LOGIN 0
 #define DUMMY_DATA 0
 
 @interface SignInViewController ()
@@ -26,12 +26,6 @@
     if (self) {
     }
     return self;
-}
-
-// Changing Status Bar to LightContent style
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
 }
 
 - (void)viewDidLoad
@@ -174,6 +168,8 @@
 }
 
 - (void)toMain {
+    
+    
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[FriendsViewController alloc] init]];
     SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
     
@@ -229,6 +225,7 @@
                 [UserDefaults setObject:[dict objectForKey:@"user_phoneNumber"] forKey:@"phoneNumber"];
                 [UserDefaults setObject:[dict objectForKey:@"user_status"] forKey:@"status"];
                 [UserDefaults synchronize];
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [overlayView dismiss:YES];
                     [self toMain];

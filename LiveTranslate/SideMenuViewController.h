@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "RESideMenu.h"
+#import "ProfileViewController.h"
 #import "FriendsViewController.h"
-#import "StatusViewController.h"
 #import "ChatsViewController.h"
 #import "SettingsViewController.h"
+#import <MessageUI/MessageUI.h>
 
-@interface SideMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SideMenuViewController : UIViewController <MFMailComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @end

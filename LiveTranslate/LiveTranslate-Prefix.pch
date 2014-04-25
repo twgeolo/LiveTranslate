@@ -15,6 +15,7 @@
     #import <Foundation/Foundation.h>
     #import "RESideMenu.h"
     #import "SideMenuViewController.h"
+    #import "AppDelegate.h"
 #endif
 
 // Useful Macros
