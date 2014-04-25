@@ -1,6 +1,7 @@
 LiveTranslate
 =============
 Platform: iOS
+
 Version: 1.0
 
 ### Developers

@@ -52,6 +52,9 @@
 		5E7F2C931905DACC00872131 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C891905DACC00872131 /* MRWeakProxy.m */; };
 		5E901D65190A023D00C8FEB4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E901D64190A023D00C8FEB4 /* MessageUI.framework */; };
 		5E901D68190A307800C8FEB4 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E901D67190A307800C8FEB4 /* ProfileViewController.m */; };
+		5E901D70190ACF4700C8FEB4 /* BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E901D6B190ACF4700C8FEB4 /* BButton.m */; };
+		5E901D71190ACF4700C8FEB4 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E901D6D190ACF4700C8FEB4 /* NSString+FontAwesome.m */; };
+		5E901D72190ACF4700C8FEB4 /* UIColor+BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E901D6F190ACF4700C8FEB4 /* UIColor+BButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -142,6 +145,12 @@
 		5E901D64190A023D00C8FEB4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		5E901D66190A307800C8FEB4 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		5E901D67190A307800C8FEB4 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		5E901D6A190ACF4700C8FEB4 /* BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BButton.h; sourceTree = "<group>"; };
+		5E901D6B190ACF4700C8FEB4 /* BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BButton.m; sourceTree = "<group>"; };
+		5E901D6C190ACF4700C8FEB4 /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
+		5E901D6D190ACF4700C8FEB4 /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
+		5E901D6E190ACF4700C8FEB4 /* UIColor+BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BButton.h"; sourceTree = "<group>"; };
+		5E901D6F190ACF4700C8FEB4 /* UIColor+BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BButton.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +223,7 @@
 		5E62E32A1909C57B0029BA9E /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5E901D69190ACF4700C8FEB4 /* BButton */,
 				5E62E32B1909CD970029BA9E /* CWPopup */,
 				5E62E31B1909A7610029BA9E /* RESideMenu */,
 				5E573319190838B100BFFCDC /* FMDB */,
@@ -407,6 +417,19 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		5E901D69190ACF4700C8FEB4 /* BButton */ = {
+			isa = PBXGroup;
+			children = (
+				5E901D6A190ACF4700C8FEB4 /* BButton.h */,
+				5E901D6B190ACF4700C8FEB4 /* BButton.m */,
+				5E901D6C190ACF4700C8FEB4 /* NSString+FontAwesome.h */,
+				5E901D6D190ACF4700C8FEB4 /* NSString+FontAwesome.m */,
+				5E901D6E190ACF4700C8FEB4 /* UIColor+BButton.h */,
+				5E901D6F190ACF4700C8FEB4 /* UIColor+BButton.m */,
+			);
+			path = BButton;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -486,11 +509,13 @@
 				5E7F2C911905DACC00872131 /* MRStopButton.m in Sources */,
 				5E7F2C8E1905DACC00872131 /* MRIconView.m in Sources */,
 				5E7F2C8C1905DACC00872131 /* MRActivityIndicatorView.m in Sources */,
+				5E901D71190ACF4700C8FEB4 /* NSString+FontAwesome.m in Sources */,
 				5E7F2C661905CFC200872131 /* YIPopupTextView.m in Sources */,
 				5E7F2C5419058FC200872131 /* FriendsViewController.m in Sources */,
 				5E7F2C5A19058FE100872131 /* ChatsViewController.m in Sources */,
 				5E7F2C8F1905DACC00872131 /* MRNavigationBarProgressView.m in Sources */,
 				5E62E3221909A7610029BA9E /* RECommonFunctions.m in Sources */,
+				5E901D70190ACF4700C8FEB4 /* BButton.m in Sources */,
 				5E57332C19083AF700BFFCDC /* Person.m in Sources */,
 				5E7F2C6E1905D12400872131 /* PDKeychainBindingsController.m in Sources */,
 				5E573327190838B100BFFCDC /* FMDatabasePool.m in Sources */,
@@ -499,6 +524,7 @@
 				5E7F2C4B190475FC00872131 /* FXBlurView.m in Sources */,
 				5E573328190838B100BFFCDC /* FMDatabaseQueue.m in Sources */,
 				5E573329190838B100BFFCDC /* FMResultSet.m in Sources */,
+				5E901D72190ACF4700C8FEB4 /* UIColor+BButton.m in Sources */,
 				5E7F2C5719058FD400872131 /* StatusViewController.m in Sources */,
 				5E62E3271909A76C0029BA9E /* SideMenuViewController.m in Sources */,
 				5E7F2C43190471E400872131 /* SignInViewController.m in Sources */,

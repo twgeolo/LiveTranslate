@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BButton.h"
 
 @interface SettingsViewController : UITableViewController
 

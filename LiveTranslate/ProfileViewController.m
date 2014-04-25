@@ -29,7 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    rowTitleAry = [[NSMutableArray alloc] initWithObjects:@"User ID", @"Real Name", @"Username", @"PIN", @"Phone", @"Status", @"Gender", nil];
+    rowTitleAry = [[NSMutableArray alloc] initWithObjects:@"User ID", @"Name", @"Username", @"PIN", @"Phone", @"Status", @"Gender", nil];
     NSMutableString *dottedPassword = [NSMutableString new];
     for (int i = 0; i < [[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"] length]; i++) {
         [dottedPassword appendString:@"●"];
@@ -37,7 +37,7 @@
     rowDetailAry = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"%li",(long)[UserDefaults integerForKey:@"id"]], [UserDefaults objectForKey:@"realName"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], dottedPassword, [UserDefaults objectForKey:@"phoneNumber"], [UserDefaults objectForKey:@"status"], [UserDefaults objectForKey:@"gender"], nil];
     
     self.tableView.rowHeight = 70;
-    self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.separatorColor = [UIColor colorWithWhite:1 alpha:0.03];
     UIButton *sideButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [sideButton setImage:[UIImage imageNamed:@"SideMenu"] forState:UIControlStateNormal];
     sideButton.frame = CGRectMake(0, 0, 25, 25);

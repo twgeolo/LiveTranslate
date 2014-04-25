@@ -12,13 +12,17 @@
 
 @end
 
-@implementation SettingsViewController
+@implementation SettingsViewController {
+    NSMutableArray *sectionTitleAry;
+    NSMutableArray *rowTitleAry;
+    NSMutableArray *rowDetailAry;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        self = [super initWithStyle:UITableViewStyleGrouped];
     }
     return self;
 }
@@ -27,6 +31,10 @@
 {
     [super viewDidLoad];
     
+    sectionTitleAry = [[NSMutableArray alloc] initWithObjects:@"Chats", @"Friends", @"Sign In", @"", nil];
+    rowTitleAry = [NSMutableArray arrayWithObjects:[NSArray arrayWithObject:@"Send/Receive Language"], [NSArray arrayWithObjects:@"List View", @"Grid View", nil], [NSArray arrayWithObjects:@"Glowing Wallpaper", nil], [NSArray arrayWithObject:@""], nil];
+    rowDetailAry = [NSMutableArray arrayWithObjects:[NSArray arrayWithObject:@"English"], [NSArray arrayWithObjects:@"", @"", nil], [NSArray arrayWithObjects:@"", nil], [NSArray arrayWithObject:@""], nil];
+    
     self.navigationItem.title = @"Settings";
     UIButton *sideButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [sideButton setImage:[UIImage imageNamed:@"SideMenu"] forState:UIControlStateNormal];
@@ -34,7 +42,7 @@
     [sideButton addTarget:self action:@selector(presentLeftMenuViewController:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:sideButton];
     
-    self.tableView.rowHeight = 70;
+    self.tableView.rowHeight = 50;
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavBar"] forBarMetrics:UIBarMetricsDefault];
@@ -63,13 +71,27 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return sectionTitleAry.count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [sectionTitleAry objectAtIndex:section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 0;
+    return [[rowTitleAry objectAtIndex:section] count];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    header.textLabel.textColor = [UIColor colorWithWhite:0.875 alpha:1.0];
+    header.textLabel.font = [UIFont boldSystemFontOfSize:19];
+    CGRect headerFrame = header.frame;
+    headerFrame.size.height = headerFrame.size.height + 20;
+    header.textLabel.frame = headerFrame;
+    header.textLabel.textAlignment = NSTextAlignmentLeft;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -78,59 +100,39 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+    }
+    
+    for (UIView *view in cell.contentView.subviews) {
+        [view removeFromSuperview];
+    }
+    
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.text = [[rowTitleAry objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [[rowDetailAry objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    UISwitch *setSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+    if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            setSwitch.on = ![UserDefaults integerForKey:@"FriendsGrid"];
+        } else {
+            setSwitch.on = [UserDefaults integerForKey:@"FriendsGrid"];
+        }
+        cell.accessoryView = setSwitch;
+    } else if (indexPath.section == 2) {
+        if (indexPath.row == 0) {
+            setSwitch.on = ![UserDefaults integerForKey:@"NoGlow"];
+        }
+        cell.accessoryView = setSwitch;
+    } else if (indexPath.section == 3) {
+        BButton *logOutButton = [[BButton alloc] initWithFrame:CGRectMake(30, 0, ScreenWidth-60, tableView.rowHeight) type:BButtonTypeDanger style:BButtonStyleBootstrapV3];
+        logOutButton.titleLabel.font = [UIFont systemFontOfSize:19];
+        [logOutButton setTitle:@"Log Out" forState:UIControlStateNormal];
+        [cell.contentView addSubview:logOutButton];
     }
     
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
