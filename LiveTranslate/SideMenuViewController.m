@@ -59,7 +59,11 @@
             [self.sideMenuViewController hideMenuViewController];
             break;
         case 1:
-            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[[FriendsViewController alloc] init]] animated:YES];
+            if ([UserDefaults integerForKey:@"FriendsGrid"]) {
+                [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[[FriendsCollectionViewController alloc] init]] animated:YES];
+            } else {
+                [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[[FriendsTableViewController alloc] init]] animated:YES];
+            }
             [self.sideMenuViewController hideMenuViewController];
             break;
         case 2:

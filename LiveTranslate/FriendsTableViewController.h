@@ -14,7 +14,8 @@
 #import "FXBlurView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIViewController+CWPopup.h"
+#import "BButton.h"
 
-@interface FriendsViewController : UITableViewController <UIGestureRecognizerDelegate>
+@interface FriendsTableViewController : UITableViewController <UIAlertViewDelegate, UIGestureRecognizerDelegate>
 
 @end

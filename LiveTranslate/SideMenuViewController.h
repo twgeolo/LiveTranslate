@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "RESideMenu.h"
 #import "ProfileViewController.h"
-#import "FriendsViewController.h"
+#import "FriendsCollectionViewController.h"
+#import "FriendsTableViewController.h"
 #import "ChatsViewController.h"
 #import "SettingsViewController.h"
 #import <MessageUI/MessageUI.h>

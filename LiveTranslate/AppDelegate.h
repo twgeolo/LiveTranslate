@@ -13,6 +13,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-- (UIImage *)circularScaleAndCropImage:(UIImage*)image frame:(CGRect)frame;
+- (UIImage *)circularImage:(UIImage*)image withFrame:(CGRect)frame;
+- (void)getContacts;
+- (NSString *)languageForKey: (NSString *)key;
 
 @end

@@ -35,6 +35,7 @@
         [dottedPassword appendString:@"●"];
     }
     rowDetailAry = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"%li",(long)[UserDefaults integerForKey:@"id"]], [UserDefaults objectForKey:@"realName"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], dottedPassword, [UserDefaults objectForKey:@"phoneNumber"], [UserDefaults objectForKey:@"status"], [UserDefaults objectForKey:@"gender"], nil];
+    NSLog(@"%@",rowDetailAry);
     
     self.tableView.rowHeight = 70;
     self.tableView.separatorColor = [UIColor colorWithWhite:1 alpha:0.03];
@@ -123,12 +124,23 @@
 }
 
 - (IBAction)showInfo:(id)sender {
-    [[[UIAlertView alloc] initWithTitle:@"User ID" message:@"This is the ID assigned to you by LiveTranslate SQL Database" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"User ID" andMessage:@"This is the ID assigned to you by LiveTranslate SQL Database"];
+    [alertView addButtonWithTitle:@"OK" type:SIAlertViewButtonTypeCancel handler:nil];
+    alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+    [alertView show];
 }
 
 - (IBAction)editInfo:(id)sender {
     UIButton *button = (UIButton *)sender;
-    if (button.tag == 5) {
+    if (button.tag == 3) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Change PIN" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Submit", nil];
+        alertView.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+        [alertView textFieldAtIndex:0].placeholder = @"New PIN";
+        [alertView textFieldAtIndex:0].secureTextEntry = YES;
+        [alertView textFieldAtIndex:1].placeholder = @"Confirm PIN";
+        [alertView textFieldAtIndex:1].secureTextEntry = YES;
+        [alertView show];
+    } else if (button.tag == 5) {
         YIPopupTextView* popupTextView = [[YIPopupTextView alloc] initWithPlaceHolder:@"Enter your status here" maxCount:140 buttonStyle:YIPopupTextViewButtonStyleRightCancelAndDone];
         popupTextView.text = [rowDetailAry objectAtIndex:5];
         popupTextView.delegate = self;
@@ -138,13 +150,62 @@
     }
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (![[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) {
+        if ([alertView.title isEqualToString:@"Change PIN"]) {
+            if (![[alertView textFieldAtIndex:0].text isEqualToString:[alertView textFieldAtIndex:1].text]) {
+                [[[UIAlertView alloc] initWithTitle:nil message:@"New PIN must match Confirm PIN" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                return;
+            } else if ([alertView textFieldAtIndex:0].text.length > 8) {
+                [[[UIAlertView alloc] initWithTitle:nil message:@"PIN must be 8 characters or shorter" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                return;
+            }
+            
+            MRProgressOverlayView *overlay = [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view animated:YES];
+            overlay.titleLabelText = @"Loading";
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                NSString *urlString = [NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/changePin?username=%@&oldPin=%@&newPin=%@", [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"], [alertView textFieldAtIndex:0].text];
+                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
+                if (data) {
+                    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                    if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            overlay.titleLabelText = @"Success";
+                            overlay.mode = MRProgressOverlayViewModeCheckmark;
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                [overlay dismiss:YES];
+                            });
+                        });
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            overlay.titleLabelText = @"Error";
+                            overlay.mode = MRProgressOverlayViewModeCross;
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                [overlay dismiss:YES];
+                            });
+                        });
+                    }
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        overlay.titleLabelText = @"Network Error";
+                        overlay.mode = MRProgressOverlayViewModeCross;
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [overlay dismiss:YES];
+                        });
+                    });
+                }
+            });
+        }
+    }
+}
+
 - (void)popupTextView:(YIPopupTextView *)textView willDismissWithText:(NSString *)text cancelled:(BOOL)cancelled {
     if (!cancelled) {
         MRProgressOverlayView *overlayView = [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view animated:YES];
         overlayView.mode = MRProgressOverlayViewModeIndeterminate;
         overlayView.titleLabelText = @"Setting your status...";
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *urlString = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/setStatus?user=%@&statusmsg=%@",[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"],text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSString *urlString = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/setStatus?user=%@&statusmsg=%@&pin=%@",[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"],text, [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSLog(@"%@",urlString);
             NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
             if (data) {

@@ -26,6 +26,11 @@
     }
     [db close];
     
+    if ([UserDefaults objectForKey:@"Lang"] == nil) {
+        [UserDefaults setObject:@"en" forKey:@"Lang"];
+        [UserDefaults synchronize];
+    }
+    
     return YES;
 }
 							
@@ -56,45 +61,150 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (UIImage *)circularScaleAndCropImage:(UIImage*)image frame:(CGRect)frame {
-    //Create the bitmap graphics context
+- (UIImage *)circularImage:(UIImage *)image withFrame:(CGRect)frame {
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(frame.size.width, frame.size.height), NO, 0.0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef contextRef = UIGraphicsGetCurrentContext();
     
-    //Get the width and heights
-    CGFloat imageWidth = image.size.width;
-    CGFloat imageHeight = image.size.height;
-    CGFloat rectWidth = frame.size.width;
-    CGFloat rectHeight = frame.size.height;
+    CGContextBeginPath (contextRef);
+    CGContextAddArc (contextRef, frame.size.width/2, frame.size.height/2, frame.size.width/2, 0, 2*M_PI, 0);
+    CGContextClosePath (contextRef);
+    CGContextClip (contextRef);
+    CGContextScaleCTM (contextRef, frame.size.width/image.size.width, frame.size.height/image.size.height);
     
-    //Calculate the scale factor
-    CGFloat scaleFactorX = rectWidth/imageWidth;
-    CGFloat scaleFactorY = rectHeight/imageHeight;
-    
-    //Calculate the centre of the circle
-    CGFloat imageCentreX = rectWidth/2;
-    CGFloat imageCentreY = rectHeight/2;
-    
-    // Create and CLIP to a CIRCULAR Path
-    // (This could be replaced with any closed path if you want a different shaped clip)
-    CGFloat radius = rectWidth/2;
-    CGContextBeginPath (context);
-    CGContextAddArc (context, imageCentreX, imageCentreY, radius, 0, 2*M_PI, 0);
-    CGContextClosePath (context);
-    CGContextClip (context);
-    
-    //Set the SCALE factor for the graphics context
-    //All future draw calls will be scaled by this factor
-    CGContextScaleCTM (context, scaleFactorX, scaleFactorY);
-    
-    // Draw the IMAGE
-    CGRect myRect = CGRectMake(0, 0, imageWidth, imageHeight);
-    [image drawInRect:myRect];
+    CGRect newRect = CGRectMake(0, 0, image.size.width, image.size.height);
+    [image drawInRect:newRect];
     
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
     return newImage;
+}
+
+- (void)getContacts {
+        CFErrorRef *error = nil;
+        ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
+        
+        __block BOOL accessGranted = NO;
+        if (ABAddressBookRequestAccessWithCompletion != NULL) {
+            dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+            ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+                accessGranted = granted;
+                dispatch_semaphore_signal(sema);
+            });
+            dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+            
+        } else {
+            accessGranted = YES;
+        }
+        
+        if (accessGranted) {
+            ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
+            ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook);
+            CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(addressBook, source, kABPersonSortByLastName);
+            CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
+            NSMutableArray *friends = [NSMutableArray new];
+            
+            if (nPeople == 0) {
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:@"No friend on our server"];
+                [alertView addButtonWithTitle:@"OK" type:SIAlertViewButtonTypeCancel handler:nil];
+                [alertView show];
+            } else {
+                for (int i = 0; i < nPeople; i++) {
+                    Person *currFriend = [[Person alloc] init];
+                    ABRecordRef person = CFArrayGetValueAtIndex(allPeople, i);
+                    if (person == nil) {
+                        continue;
+                    }
+                    
+                    if (ABPersonHasImageData(person)) {
+                        CFDataRef imageRef = ABPersonCopyImageData(person);
+                        if (imageRef) {
+                            currFriend.imageData = (__bridge NSData *)imageRef;
+                        }
+                        CFRelease(imageRef);
+                    }
+                    
+                    NSMutableArray *phoneNumbers = [[NSMutableArray alloc] init];
+                    ABMultiValueRef multiPhones = ABRecordCopyValue(person, kABPersonPhoneProperty);
+                    for(CFIndex i=0;i<ABMultiValueGetCount(multiPhones);i++) {
+                        CFStringRef phoneNumberRef = ABMultiValueCopyValueAtIndex(multiPhones, i);
+                        NSString *phoneNumber = (__bridge NSString *) phoneNumberRef;
+                        phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
+                        phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
+                        phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
+                        phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
+                        phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
+                        phoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:
+                                        [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                       componentsJoinedByString:@""];
+                        if (phoneNumber.length > 10) {
+                            phoneNumber = [phoneNumber substringWithRange:NSMakeRange(phoneNumber.length-10, 10)];
+                        }
+                        if (phoneNumber.length == 10) {
+                            phoneNumber = [NSString stringWithFormat:@"%@-%@-%@", [phoneNumber substringToIndex:3], [phoneNumber substringWithRange:NSMakeRange(3, 3)], [phoneNumber substringFromIndex:6]];
+                            [phoneNumbers addObject:phoneNumber];
+                        }
+                    }
+                    currFriend.phone = [NSArray arrayWithArray:phoneNumbers];
+                    [friends addObject:currFriend];
+                }
+                
+                NSMutableArray *friendsOnServer = [NSMutableArray new];
+                for (int i=0; i<friends.count; i++) {
+                    Person *currFriend = [friends objectAtIndex:i];
+                    for (int j=0; j<currFriend.phone.count; j++) {
+                        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/search?phone=%@", [currFriend.phone objectAtIndex:j]]]];
+                        if (data) {
+                            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                            if ([[dict objectForKey:@"numberOfMatches"] integerValue] == 1) {
+                                dict = [[dict objectForKey:@"results"] objectAtIndex:0];
+                                currFriend.phone = [NSArray arrayWithObject:[currFriend.phone objectAtIndex:j]];
+                                currFriend.userName = [dict objectForKey:@"name"];
+                                currFriend.realName = [dict objectForKey:@"real_name"];
+                                currFriend.displayName = [dict objectForKey:@"real_name"];
+                                currFriend.gender = [dict objectForKey:@"gender"];
+                                currFriend.status = [dict objectForKey:@"status"];
+                                [friendsOnServer addObject:currFriend];
+                            }
+                        }
+                    }
+                }
+                
+                FMDatabase *db = [FMDatabase databaseWithPath:[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"LiveTranslate.db"]];
+                if ([db open]) {
+                    [db executeUpdate:@"DELETE FROM Friends"];
+                    for (Person *person in friendsOnServer) {
+                        [db executeUpdate:@"INSERT INTO Friends (userName, realName, displayName, status, phone, gender, image) VALUES (?, ?, ?, ?, ?, ?, ?)", person.userName, person.realName, person.displayName, person.status, [person.phone objectAtIndex:0], person.gender, person.imageData];
+                    }
+                }
+                [db close];
+                [UserDefaults setInteger:1 forKey:@"LoadedContacts"];
+                [UserDefaults synchronize];
+            }
+        } else {
+            SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:@"Cannot fetch contacts"];
+            [alertView addButtonWithTitle:@"OK" type:SIAlertViewButtonTypeCancel handler:nil];
+            [alertView show];
+        }
+}
+
+- (NSString *)languageForKey: (NSString *)key {
+    if ([key isEqualToString:@"en"]) {
+        return @"English";
+    } else if ([key isEqualToString:@"es"]) {
+        return @"Spanish";
+    } else if ([key isEqualToString:@"ko"]) {
+        return @"Korean";
+    } else if ([key isEqualToString:@"ja"]) {
+        return @"Japanese";
+    } else if ([key isEqualToString:@"zh-TW"]) {
+        return @"Chinese Traditional";
+    } else if ([key isEqualToString:@"zh-CN"]) {
+        return @"Chinese Simplified";
+    } else if ([key isEqualToString:@"hi"]) {
+        return @"Hindi";
+    }
+    return @"Unknown";
 }
 
 @end

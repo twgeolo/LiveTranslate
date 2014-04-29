@@ -8,7 +8,7 @@
 
 #import "SignInViewController.h"
 
-#define FORCE_LOGIN 0
+#define FORCE_LOGIN 1
 #define DUMMY_DATA 0
 
 @interface SignInViewController ()
@@ -18,6 +18,8 @@
 @implementation SignInViewController {
     NSString *username;
     NSString *password;
+    UIView *blackView;
+    BOOL glowing;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -43,6 +45,10 @@
                             @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=tchu&pin=123456&phone=858-692-0632&realname=Terry%20Chu&gender=M",
                             @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=bcheng&pin=123456&phone=949-378-6669&realname=Brian%20Cheng&gender=M",
                             @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=tkembura&pin=123456&phone=312-780-9832&realname=Tatum%20Kembura&gender=F",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=aliu&pin=123456&phone=917-257-0694&realname=Andy%20Liu&gender=M",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=psullivan&pin=123456&phone=980-248-9239&realname=Patrick%20Sullivan&gender=M",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=ktakemae&pin=123456&phone=857-919-5841&realname=Keisuke%20Takemae&gender=M",
+                            @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=jtsai&pin=123456&phone=091-550-3655&realname=James%20Tsai&gender=M",
                             nil];
     for (NSString *sample in sampleArray) {
         NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:sample]];
@@ -62,7 +68,7 @@
     backgroundIV.contentMode = UIViewContentModeScaleToFill;
     
     // Add a black overlay to the background imageview
-    UIView *blackView = [[UIView alloc] initWithFrame:backgroundIV.frame];
+    blackView = [[UIView alloc] initWithFrame:backgroundIV.frame];
     blackView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.68];
     [backgroundIV addSubview:blackView];
     
@@ -167,10 +173,44 @@
     [self.view addSubview:registerLabel];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if (![UserDefaults integerForKey:@"NoGlow"] && !glowing) {
+        [self bright:nil];
+        glowing = YES;
+    } else {
+        glowing = NO;
+    }
+}
+
+- (IBAction)bright:(id)sender {
+    if (![UserDefaults integerForKey:@"NoGlow"]) {
+        [UIView animateWithDuration:2 animations:^{
+            blackView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.68];
+        } completion:^(BOOL finished){
+            [self dim:sender];
+        }];
+    }
+}
+
+- (IBAction)dim:(id)sender {
+    if (![UserDefaults integerForKey:@"NoGlow"]) {
+        [UIView animateWithDuration:2 animations:^{
+            blackView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.68];
+        } completion:^(BOOL finished){
+            [self bright:sender];
+        }];
+    }
+}
+
 - (void)toMain {
-    
-    
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[FriendsViewController alloc] init]];
+    UINavigationController *navigationController;
+    if ([UserDefaults integerForKey:@"FriendsGrid"]) {
+        navigationController = [[UINavigationController alloc] initWithRootViewController:[[FriendsCollectionViewController alloc] init]];
+    } else {
+        navigationController = [[UINavigationController alloc] initWithRootViewController:[[FriendsTableViewController alloc] init]];
+    }
     SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
     
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navigationController

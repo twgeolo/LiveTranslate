@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BButton.h"
 
-@interface SettingsViewController : UITableViewController
+@interface SettingsViewController : UITableViewController <UIActionSheetDelegate>
 
 @end

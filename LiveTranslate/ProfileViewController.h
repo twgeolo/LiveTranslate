@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "PDKeychainBindingsController.h"
 #import "YIPopupTextView.h"
+#import "SIAlertView.h"
 
-@interface ProfileViewController : UITableViewController <YIPopupTextViewDelegate>
+@interface ProfileViewController : UITableViewController <UIAlertViewDelegate, YIPopupTextViewDelegate>
 
 @end

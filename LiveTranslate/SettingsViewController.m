@@ -32,8 +32,8 @@
     [super viewDidLoad];
     
     sectionTitleAry = [[NSMutableArray alloc] initWithObjects:@"Chats", @"Friends", @"Sign In", @"", nil];
-    rowTitleAry = [NSMutableArray arrayWithObjects:[NSArray arrayWithObject:@"Send/Receive Language"], [NSArray arrayWithObjects:@"List View", @"Grid View", nil], [NSArray arrayWithObjects:@"Glowing Wallpaper", nil], [NSArray arrayWithObject:@""], nil];
-    rowDetailAry = [NSMutableArray arrayWithObjects:[NSArray arrayWithObject:@"English"], [NSArray arrayWithObjects:@"", @"", nil], [NSArray arrayWithObjects:@"", nil], [NSArray arrayWithObject:@""], nil];
+    rowTitleAry = [NSMutableArray arrayWithObjects:[NSArray arrayWithObject:@"Language"], [NSArray arrayWithObjects:@"List View", @"Grid View", nil], [NSArray arrayWithObjects:@"Glowing Wallpaper", nil], [NSArray arrayWithObject:@""], nil];
+    rowDetailAry = [NSMutableArray arrayWithObjects:[NSArray arrayWithObject:[ApplicationDelegate languageForKey:[UserDefaults objectForKey:@"Lang"]]], [NSArray arrayWithObjects:@"", @"", nil], [NSArray arrayWithObjects:@"", nil], [NSArray arrayWithObject:@""], nil];
     
     self.navigationItem.title = @"Settings";
     UIButton *sideButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -112,8 +112,14 @@
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.text = [[rowTitleAry objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.detailTextLabel.text = [[rowDetailAry objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.75 alpha:1];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     UISwitch *setSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0) {
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    } else if (indexPath.section == 1) {
+        setSwitch.tag = indexPath.row;
+        [setSwitch addTarget:self action:@selector(changeLayout:) forControlEvents:UIControlEventValueChanged];
         if (indexPath.row == 0) {
             setSwitch.on = ![UserDefaults integerForKey:@"FriendsGrid"];
         } else {
@@ -122,17 +128,82 @@
         cell.accessoryView = setSwitch;
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
+            [setSwitch addTarget:self action:@selector(changeGlow:) forControlEvents:UIControlEventValueChanged];
             setSwitch.on = ![UserDefaults integerForKey:@"NoGlow"];
         }
         cell.accessoryView = setSwitch;
     } else if (indexPath.section == 3) {
         BButton *logOutButton = [[BButton alloc] initWithFrame:CGRectMake(30, 0, ScreenWidth-60, tableView.rowHeight) type:BButtonTypeDanger style:BButtonStyleBootstrapV3];
+        [logOutButton addTarget:self action:@selector(logOut:) forControlEvents:UIControlEventTouchUpInside];
         logOutButton.titleLabel.font = [UIFont systemFontOfSize:19];
         [logOutButton setTitle:@"Log Out" forState:UIControlStateNormal];
         [cell.contentView addSubview:logOutButton];
     }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        [[[UIActionSheet alloc] initWithTitle:@"Send/Receive Language" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"English", @"Spanish", @"Korean", @"Japanese", @"Chinese Traditional", @"Chinese Simplified", @"Hindi", nil] showInView:self.view];
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (![[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) {
+        if ([actionSheet.title isEqualToString:@"Send/Receive Language"]) {
+            switch (buttonIndex) {
+                case 0:
+                    [UserDefaults setObject:@"en" forKey:@"Lang"];
+                    break;
+                case 1:
+                    [UserDefaults setObject:@"es" forKey:@"Lang"];
+                    break;
+                case 2:
+                    [UserDefaults setObject:@"ko" forKey:@"Lang"];
+                    break;
+                case 3:
+                    [UserDefaults setObject:@"ja" forKey:@"Lang"];
+                    break;
+                case 4:
+                    [UserDefaults setObject:@"zh-TW" forKey:@"Lang"];
+                    break;
+                case 5:
+                    [UserDefaults setObject:@"zh-CN" forKey:@"Lang"];
+                    break;
+                case 6:
+                    [UserDefaults setObject:@"hi" forKey:@"Lang"];
+                    break;
+                default:
+                    break;
+            }
+            [UserDefaults synchronize];
+            [rowDetailAry replaceObjectAtIndex:0 withObject:[NSArray arrayWithObject:[ApplicationDelegate languageForKey:[UserDefaults objectForKey:@"Lang"]]]];
+            [self.tableView reloadData];
+        }
+    }
+}
+
+- (IBAction)changeLayout:(id)sender {
+    UISwitch *setSwitch = (UISwitch *)sender;
+    if (setSwitch.tag == 0) {
+        [UserDefaults setInteger:!setSwitch.on forKey:@"FriendsGrid"];
+    } else if (setSwitch.tag == 1) {
+        [UserDefaults setInteger:setSwitch.on forKey:@"FriendsGrid"];
+    }
+    [UserDefaults synchronize];
+    [self.tableView reloadData];
+}
+
+- (IBAction)changeGlow:(id)sender {
+    UISwitch *setSwitch = (UISwitch *)sender;
+    [UserDefaults setInteger:!setSwitch.on forKey:@"NoGlow"];
+    [UserDefaults synchronize];
+}
+
+- (IBAction)logOut:(id)sender {
+    [self.navigationController.sideMenuViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

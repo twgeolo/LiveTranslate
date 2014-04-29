@@ -16,6 +16,7 @@
     #import "RESideMenu.h"
     #import "SideMenuViewController.h"
     #import "AppDelegate.h"
+    #import "SIAlertView.h"
 #endif
 
 // Useful Macros

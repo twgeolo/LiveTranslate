@@ -28,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5E7F2C2919045D0F00872131"
-               BuildableName = "LiveTranslateTests.xctest"
-               BlueprintName = "LiveTranslateTests"
-               ReferencedContainer = "container:LiveTranslate.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
