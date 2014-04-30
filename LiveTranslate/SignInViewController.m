@@ -89,59 +89,15 @@
     nameLabel.font = [UIFont fontWithName:@"Avenir-Heavy" size:28];
     [blackView addSubview:nameLabel];
     
-    // Setup Username Field
+    // Setup Username and Password Field
     NSInteger TFWidth = ScreenWidth-60;
     NSInteger TFHeight = 44;
-    UITextField *userTF = [[UITextField alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, nameLabel.frame.origin.y+22+40, TFWidth, TFHeight)];
-    userTF.tag = 0;
-    userTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    userTF.delegate = self;
-    userTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-    userTF.returnKeyType = UIReturnKeyDone;
-    userTF.userInteractionEnabled = YES;
-    userTF.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.75];
-    userTF.textColor = [UIColor whiteColor];
-    userTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Username" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:0.8 alpha:1.0]}];
-    UIView *userIconBox = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight+20, TFHeight)];
-    UIImageView *userIconIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Username"]];
-    userIconIV.frame = CGRectMake(10, 9, 26, 26);
-    userIconIV.contentMode = UIViewContentModeScaleAspectFit;
-    [userIconBox addSubview:userIconIV];
-    UIView *userSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(46, 8, 1, 28)];
-    userSeparatorLine.backgroundColor = [UIColor whiteColor];
-    [userIconBox addSubview:userSeparatorLine];
-    userTF.leftView = userIconBox;
-    userTF.leftViewMode = UITextFieldViewModeAlways;
-    
-    // Setup Password Field
-    UITextField *passTF = [[UITextField alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, userTF.frame.origin.y+40+20, TFWidth, TFHeight)];
-    passTF.tag = 1;
+    UITextField *userTF = [ApplicationDelegate makeSignInTFWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, nameLabel.frame.origin.y+22+40, TFWidth, TFHeight) tag:0 delegate:self placeholder:@"Username" image:@"Username"];
+    UITextField *passTF = [ApplicationDelegate makeSignInTFWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, userTF.frame.origin.y+40+20, TFWidth, TFHeight) tag:1 delegate:self placeholder:@"PIN" image:@"Password"];
     passTF.secureTextEntry = YES;
-    passTF.delegate = self;
-    passTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-    passTF.returnKeyType = UIReturnKeyDone;
-    passTF.userInteractionEnabled = YES;
-    passTF.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.75];
-    passTF.textColor = [UIColor whiteColor];
-    passTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"PIN" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:0.8 alpha:1.0]}];
-    UIView *passIconBox = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight+20, TFHeight)];
-    UIImageView *passIconIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Password"]];
-    passIconIV.frame = CGRectMake(10, 9, 26, 26);
-    passIconIV.contentMode = UIViewContentModeScaleAspectFit;
-    [passIconBox addSubview:passIconIV];
-    UIView *passSeparatorLine = [[UIView alloc] initWithFrame:CGRectMake(46, 8, 1, 28)];
-    passSeparatorLine.backgroundColor = [UIColor whiteColor];
-    [passIconBox addSubview:passSeparatorLine];
-    passTF.leftView = passIconBox;
-    passTF.leftViewMode = UITextFieldViewModeAlways;
     
     // Setup Sign In Button
-    UIButton *signInBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    signInBtn.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-    signInBtn.frame = CGRectMake((ScreenWidth-TFWidth)/2, passTF.frame.origin.y+40+20, TFWidth, TFHeight);
-    [signInBtn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
-    signInBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    [signInBtn setTitle:@"SIGN IN" forState:UIControlStateNormal];
+    UIButton *signInBtn = [ApplicationDelegate makeFlatButtonWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, passTF.frame.origin.y+40+20, TFWidth, TFHeight) text:@"SIGN IN"];
     [signInBtn addTarget:self action:@selector(signIn:) forControlEvents:UIControlEventTouchUpInside];
     
     // Setup Sign Up part
@@ -205,16 +161,10 @@
 }
 
 - (void)toMain {
-    UINavigationController *navigationController;
-    if ([UserDefaults integerForKey:@"FriendsGrid"]) {
-        navigationController = [[UINavigationController alloc] initWithRootViewController:[[FriendsCollectionViewController alloc] init]];
-    } else {
-        navigationController = [[UINavigationController alloc] initWithRootViewController:[[FriendsTableViewController alloc] init]];
-    }
-    SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[FriendsViewController alloc] init]];
     
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navigationController
-                                                                    leftMenuViewController:leftMenuViewController
+                                                                    leftMenuViewController:[SideMenuViewController new]
                                                                    rightMenuViewController:nil];
     sideMenuViewController.backgroundImage = [UIImage imageNamed:@"SideMenuWallpaper"];
     sideMenuViewController.menuPreferredStatusBarStyle = 1; // UIStatusBarStyleLightContent
@@ -246,46 +196,20 @@
         return;
     }
     
-    MRProgressOverlayView *overlayView = [MRProgressOverlayView showOverlayAddedTo:self.view animated:YES];
-    overlayView.titleLabelText = @"Signing In...";
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *urlString = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/login?name=%@&pin=%@",username,password] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSLog(@"%@",urlString);
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
-        if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
-                [[PDKeychainBindings sharedKeychainBindings] setObject:username forKey:@"Username"];
-                [[PDKeychainBindings sharedKeychainBindings] setObject:password forKey:@"PIN"];
-                data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/profile?username=%@",username]]];
-                dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                [UserDefaults setInteger:[[dict objectForKey:@"user_id"] integerValue] forKey:@"id"];
-                [UserDefaults setObject:[dict objectForKey:@"user_realName"] forKey:@"realName"];
-                [UserDefaults setObject:[dict objectForKey:@"user_gender"] forKey:@"gender"];
-                [UserDefaults setObject:[dict objectForKey:@"user_phoneNumber"] forKey:@"phoneNumber"];
-                [UserDefaults setObject:[dict objectForKey:@"user_status"] forKey:@"status"];
-                [UserDefaults synchronize];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [overlayView dismiss:YES];
-                    [self toMain];
-                });
-            } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [overlayView dismiss:YES];
-                    [[[UIAlertView alloc] initWithTitle:@"Failed" message:[dict objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
-                });
-            }
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                overlayView.mode = MRProgressOverlayViewModeCross;
-                overlayView.titleLabelText = @"Network Error\nTry again later";
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [overlayView dismiss:YES];
-                });
-            });
-        }
-    });
+    NSString *urlString = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/login?name=%@&pin=%@",username,password] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [ApplicationDelegate sendRequestWithURL:urlString successBlock:^{
+        [[PDKeychainBindings sharedKeychainBindings] setObject:username forKey:@"Username"];
+        [[PDKeychainBindings sharedKeychainBindings] setObject:password forKey:@"PIN"];
+        data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/profile?username=%@",username]]];
+        dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        [UserDefaults setInteger:[[dict objectForKey:@"user_id"] integerValue] forKey:@"id"];
+        [UserDefaults setObject:[dict objectForKey:@"user_realName"] forKey:@"realName"];
+        [UserDefaults setObject:[dict objectForKey:@"user_gender"] forKey:@"gender"];
+        [UserDefaults setObject:[dict objectForKey:@"user_phoneNumber"] forKey:@"phoneNumber"];
+        [UserDefaults setObject:[dict objectForKey:@"user_status"] forKey:@"status"];
+        [UserDefaults synchronize];
+        [self toMain];
+    }];
     
 #endif
 }
@@ -321,7 +245,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

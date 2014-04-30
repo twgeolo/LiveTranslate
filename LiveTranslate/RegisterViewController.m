@@ -55,7 +55,7 @@
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.textColor = [UIColor whiteColor];
     navigationItem.titleView = titleLabel;
-    navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"X"] style:UIBarButtonItemStyleBordered target:self action:@selector(cancelRegistration:)];
+    navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"X"] style:UIBarButtonItemStyleBordered target:self.parentViewController action:@selector(dismissModalViewControllerAnimated:)];
     [navigationBar pushNavigationItem:navigationItem animated:YES];
     
     // Add title Label on the black overlay
@@ -72,147 +72,20 @@
     greetLabel.textColor = [UIColor whiteColor];
     [blackView addSubview:greetLabel];
     
-    // Setup Username Field
+    // Setup textFields
     NSInteger TFWidth = ScreenWidth-60;
     NSInteger TFHeight = 46;
-    UITextField *userTF = [[UITextField alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, nameLabel.frame.origin.y+22+40, TFWidth, TFHeight)];
-    userTF.tag = 0;
-    userTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    userTF.delegate = self;
-    userTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-    userTF.returnKeyType = UIReturnKeyDone;
-    userTF.userInteractionEnabled = YES;
-    userTF.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.75];
-    userTF.textColor = [UIColor whiteColor];
-    userTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Username" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:0.6 alpha:1.0]}];
-    UIView *userIconBox = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight+15, TFHeight)];
-    UIView *userBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight, TFHeight)];
-    userBgView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.95];
-    [userIconBox addSubview:userBgView];
-    UIImageView *userIconIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Username"]];
-    userIconIV.frame = CGRectMake(10, 9, 26, 26);
-    userIconIV.contentMode = UIViewContentModeScaleAspectFit;
-    [userIconBox addSubview:userIconIV];
-    userTF.leftView = userIconBox;
-    userTF.leftViewMode = UITextFieldViewModeAlways;
-    
-    // Setup Password Field
-    UITextField *passTF = [[UITextField alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, userTF.frame.origin.y+40+10, TFWidth, TFHeight)];
-    passTF.tag = 1;
+    UITextField *userTF = [ApplicationDelegate makeRegisterTFWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, nameLabel.frame.origin.y+22+40, TFWidth, TFHeight) tag:0 delegate:self placeholder:@"Username" image:@"Username" keyboard:UIKeyboardTypeDefault];
+    UITextField *passTF = [ApplicationDelegate makeRegisterTFWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, userTF.frame.origin.y+40+10, TFWidth, TFHeight) tag:1 delegate:self placeholder:@"PIN" image:@"Password" keyboard:UIKeyboardTypeDefault];
     passTF.secureTextEntry = YES;
-    passTF.delegate = self;
-    passTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-    passTF.returnKeyType = UIReturnKeyDone;
-    passTF.userInteractionEnabled = YES;
-    passTF.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.75];
-    passTF.textColor = [UIColor whiteColor];
-    passTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"PIN" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:0.6 alpha:1.0]}];
-    UIView *passIconBox = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight+15, TFHeight)];
-    UIView *passBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight, TFHeight)];
-    passBgView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.95];
-    [passIconBox addSubview:passBgView];
-    UIImageView *passIconIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Password"]];
-    passIconIV.frame = CGRectMake(10, 9, 26, 26);
-    passIconIV.contentMode = UIViewContentModeScaleAspectFit;
-    [passIconBox addSubview:passIconIV];
-    passTF.leftView = passIconBox;
-    passTF.leftViewMode = UITextFieldViewModeAlways;
-    
-    // Setup Password Confirmation Field
-    UITextField *confTF = [[UITextField alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, passTF.frame.origin.y+40+10, TFWidth, TFHeight)];
-    confTF.tag = 2;
+    UITextField *confTF = [ApplicationDelegate makeRegisterTFWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, passTF.frame.origin.y+40+10, TFWidth, TFHeight) tag:2 delegate:self placeholder:@"Confirm PIN" image:@"Confirm Password" keyboard:UIKeyboardTypeDefault];
     confTF.secureTextEntry = YES;
-    confTF.delegate = self;
-    confTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-    confTF.returnKeyType = UIReturnKeyDone;
-    confTF.userInteractionEnabled = YES;
-    confTF.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.75];
-    confTF.textColor = [UIColor whiteColor];
-    confTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Confirm PIN" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:0.6 alpha:1.0]}];
-    UIView *confIconBox = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight+15, TFHeight)];
-    UIView *confBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight, TFHeight)];
-    confBgView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.95];
-    [confIconBox addSubview:confBgView];
-    UIImageView *confIconIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Confirm Password"]];
-    confIconIV.frame = CGRectMake(10, 9, 26, 26);
-    confIconIV.contentMode = UIViewContentModeScaleAspectFit;
-    [confIconBox addSubview:confIconIV];
-    confTF.leftView = confIconBox;
-    confTF.leftViewMode = UITextFieldViewModeAlways;
-    
-    // Setup Phone Field
-    UITextField *phoneTF = [[UITextField alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, confTF.frame.origin.y+40+10, TFWidth, TFHeight)];
-    phoneTF.tag = 3;
-    phoneTF.keyboardType = UIKeyboardTypeNumberPad;
-    phoneTF.delegate = self;
-    phoneTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-    phoneTF.returnKeyType = UIReturnKeyDone;
-    phoneTF.userInteractionEnabled = YES;
-    phoneTF.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.75];
-    phoneTF.textColor = [UIColor whiteColor];
-    phoneTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Phone" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:0.6 alpha:1.0]}];
-    UIView *phoneIconBox = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight+15, TFHeight)];
-    UIView *phoneBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight, TFHeight)];
-    phoneBgView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.95];
-    [phoneIconBox addSubview:phoneBgView];
-    UIImageView *phoneIconIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Phone"]];
-    phoneIconIV.frame = CGRectMake(10, 9, 26, 26);
-    phoneIconIV.contentMode = UIViewContentModeScaleAspectFit;
-    [phoneIconBox addSubview:phoneIconIV];
-    phoneTF.leftView = phoneIconBox;
-    phoneTF.leftViewMode = UITextFieldViewModeAlways;
-    
-    // Setup Real name Field
-    UITextField *realTF = [[UITextField alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, phoneTF.frame.origin.y+40+10, TFWidth, TFHeight)];
-    realTF.tag = 4;
-    realTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    realTF.delegate = self;
-    realTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-    realTF.returnKeyType = UIReturnKeyDone;
-    realTF.userInteractionEnabled = YES;
-    realTF.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.75];
-    realTF.textColor = [UIColor whiteColor];
-    realTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Real name" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:0.6 alpha:1.0]}];
-    UIView *realIconBox = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight+15, TFHeight)];
-    UIView *realBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight, TFHeight)];
-    realBgView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.95];
-    [realIconBox addSubview:realBgView];
-    UIImageView *realIconIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Real name"]];
-    realIconIV.frame = CGRectMake(10, 9, 26, 26);
-    realIconIV.contentMode = UIViewContentModeScaleAspectFit;
-    [realIconBox addSubview:realIconIV];
-    realTF.leftView = realIconBox;
-    realTF.leftViewMode = UITextFieldViewModeAlways;
-    
-    // Setup Gender field
-    UITextField *genderTF = [[UITextField alloc] initWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, realTF.frame.origin.y+40+10, TFWidth, TFHeight)];
-    genderTF.tag = 5;
-    genderTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    genderTF.delegate = self;
-    genderTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-    genderTF.returnKeyType = UIReturnKeyDone;
-    genderTF.userInteractionEnabled = YES;
-    genderTF.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.75];
-    genderTF.textColor = [UIColor whiteColor];
-    genderTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Gender" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithWhite:0.6 alpha:1.0]}];
-    UIView *genderIconBox = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight+15, TFHeight)];
-    UIView *genderBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TFHeight, TFHeight)];
-    genderBgView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.95];
-    [genderIconBox addSubview:genderBgView];
-    UIImageView *genderIconIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Gender"]];
-    genderIconIV.frame = CGRectMake(10, 9, 26, 26);
-    genderIconIV.contentMode = UIViewContentModeScaleAspectFit;
-    [genderIconBox addSubview:genderIconIV];
-    genderTF.leftView = genderIconBox;
-    genderTF.leftViewMode = UITextFieldViewModeAlways;
+    UITextField *phoneTF = [ApplicationDelegate makeRegisterTFWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, confTF.frame.origin.y+40+10, TFWidth, TFHeight) tag:3 delegate:self placeholder:@"Phone" image:@"Phone" keyboard:UIKeyboardTypeNumberPad];
+    UITextField *realTF = [ApplicationDelegate makeRegisterTFWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, phoneTF.frame.origin.y+40+10, TFWidth, TFHeight) tag:4 delegate:self placeholder:@"Real name" image:@"Real name" keyboard:UIKeyboardTypeDefault];
+    UITextField *genderTF = [ApplicationDelegate makeRegisterTFWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, realTF.frame.origin.y+40+10, TFWidth, TFHeight) tag:5 delegate:self placeholder:@"Gender" image:@"Gender" keyboard:UIKeyboardTypeDefault];
     
     // Setup Sign Up Button
-    UIButton *signUpBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    signUpBtn.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-    signUpBtn.frame = CGRectMake((ScreenWidth-TFWidth)/2, genderTF.frame.origin.y+40+30, TFWidth, TFHeight);
-    [signUpBtn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
-    signUpBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    [signUpBtn setTitle:@"SIGN UP" forState:UIControlStateNormal];
+    UIButton *signUpBtn = [ApplicationDelegate makeFlatButtonWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, genderTF.frame.origin.y+40+30, TFWidth, TFHeight) text:@"SIGN UP"];
     [signUpBtn addTarget:self action:@selector(signUp:) forControlEvents:UIControlEventTouchUpInside];
     
     // Setup Notice Label
@@ -274,41 +147,11 @@
         return;
     }
     
-    MRProgressOverlayView *overlayView = [MRProgressOverlayView showOverlayAddedTo:self.view animated:YES];
-    overlayView.titleLabelText = @"Registering";
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *phoneNumber = [NSString stringWithFormat:@"%@-%@-%@", [dataArray[3] substringToIndex:3], [dataArray[3] substringWithRange:NSMakeRange(3, 3)], [dataArray[3] substringFromIndex:6]];
-        NSString *urlString = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=%@&pin=%@&phone=%@&realname=%@&gender=%c",dataArray[0],dataArray[1],phoneNumber,dataArray[4],[[dataArray[5] uppercaseString] characterAtIndex:0]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSLog(@"%@",urlString);
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
-        if (data) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    overlayView.mode = MRProgressOverlayViewModeCheckmark;
-                    overlayView.titleLabelText = @"Your account has been created";
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [self dismissViewControllerAnimated:YES completion:^{
-                            [overlayView dismiss:YES];
-                        }];
-                    });
-                });
-            } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [overlayView dismiss:YES];
-                    [[[UIAlertView alloc] initWithTitle:@"Failed" message:[dict objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
-                });
-            }
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                overlayView.mode = MRProgressOverlayViewModeCross;
-                overlayView.titleLabelText = @"Network Error\nPlease try again later";
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [overlayView dismiss:YES];
-                });
-            });
-        }
-    });
+    NSString *phoneNumber = [NSString stringWithFormat:@"%@-%@-%@", [dataArray[3] substringToIndex:3], [dataArray[3] substringWithRange:NSMakeRange(3, 3)], [dataArray[3] substringFromIndex:6]];
+    NSString *urlString = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=%@&pin=%@&phone=%@&realname=%@&gender=%c",dataArray[0],dataArray[1],phoneNumber,dataArray[4],[[dataArray[5] uppercaseString] characterAtIndex:0]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [ApplicationDelegate sendRequestWithURL:urlString successBlock:^{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 - (IBAction)dismissKeyboard:(id)sender {
@@ -351,10 +194,6 @@
     }];
     [self dismissKeyboard:nil];
     return YES;
-}
-
-- (IBAction)cancelRegistration:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)reloadTextFieldAtIndex: (NSInteger)index WithText: (NSString *)text {

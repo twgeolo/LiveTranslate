@@ -35,31 +35,12 @@
         [dottedPassword appendString:@"●"];
     }
     rowDetailAry = [[NSMutableArray alloc] initWithObjects:[NSString stringWithFormat:@"%li",(long)[UserDefaults integerForKey:@"id"]], [UserDefaults objectForKey:@"realName"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], dottedPassword, [UserDefaults objectForKey:@"phoneNumber"], [UserDefaults objectForKey:@"status"], [UserDefaults objectForKey:@"gender"], nil];
-    NSLog(@"%@",rowDetailAry);
     
     self.tableView.rowHeight = 70;
     self.tableView.separatorColor = [UIColor colorWithWhite:1 alpha:0.03];
-    UIButton *sideButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [sideButton setImage:[UIImage imageNamed:@"SideMenu"] forState:UIControlStateNormal];
-    sideButton.frame = CGRectMake(0, 0, 25, 25);
-    [sideButton addTarget:self action:@selector(presentLeftMenuViewController:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:sideButton];
-    
     self.navigationItem.title = @"Profile";
-    self.tableView.backgroundColor = [UIColor clearColor];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavBar"] forBarMetrics:UIBarMetricsDefault];
-    UIImage *wallpaperImage = [[UIImage imageNamed:@"Wallpaper"] blurredImageWithRadius:5 iterations:2 tintColor:[UIColor blackColor]];
-    [self.navigationController.view setBackgroundColor:[UIColor colorWithPatternImage:wallpaperImage]];
     
-    UIView *blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-    blackView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.68];
-    [self.navigationController.view insertSubview:blackView atIndex:0];
-    UIView *blackView2 = [[UIView alloc] initWithFrame:CGRectMake(0, -20, ScreenWidth, 64)];
-    blackView2.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.68];
-    [self.navigationController.navigationBar insertSubview:blackView2 atIndex:1];
-    
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    [self.navigationController.navigationBar setTranslucent:YES];
+    [ApplicationDelegate customizeViewController:self tableView:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -161,83 +142,21 @@
                 return;
             }
             
-            MRProgressOverlayView *overlay = [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view animated:YES];
-            overlay.titleLabelText = @"Loading";
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                NSString *urlString = [NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/changePin?username=%@&oldPin=%@&newPin=%@", [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"], [alertView textFieldAtIndex:0].text];
-                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
-                if (data) {
-                    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                    if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            overlay.titleLabelText = @"Success";
-                            overlay.mode = MRProgressOverlayViewModeCheckmark;
-                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                [overlay dismiss:YES];
-                            });
-                        });
-                    } else {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            overlay.titleLabelText = @"Error";
-                            overlay.mode = MRProgressOverlayViewModeCross;
-                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                [overlay dismiss:YES];
-                            });
-                        });
-                    }
-                } else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        overlay.titleLabelText = @"Network Error";
-                        overlay.mode = MRProgressOverlayViewModeCross;
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [overlay dismiss:YES];
-                        });
-                    });
-                }
-            });
+            NSString *urlString = [NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/changePin?username=%@&oldPin=%@&newPin=%@", [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"], [alertView textFieldAtIndex:0].text];
+            [ApplicationDelegate sendRequestWithURL:urlString successBlock:nil];
         }
     }
 }
 
 - (void)popupTextView:(YIPopupTextView *)textView willDismissWithText:(NSString *)text cancelled:(BOOL)cancelled {
     if (!cancelled) {
-        MRProgressOverlayView *overlayView = [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view animated:YES];
-        overlayView.mode = MRProgressOverlayViewModeIndeterminate;
-        overlayView.titleLabelText = @"Setting your status...";
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *urlString = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/setStatus?user=%@&statusmsg=%@&pin=%@",[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"],text, [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            NSLog(@"%@",urlString);
-            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
-            if (data) {
-                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [rowDetailAry replaceObjectAtIndex:5 withObject:text];
-                        [UserDefaults setObject:text forKey:@"status"];
-                        [UserDefaults synchronize];
-                        [self.tableView reloadData];
-                        overlayView.mode = MRProgressOverlayViewModeCheckmark;
-                        overlayView.titleLabelText = @"Done";
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [overlayView dismiss:YES];
-                        });
-                    });
-                } else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [[[UIAlertView alloc] initWithTitle:@"Failed" message:[dict objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
-                        [overlayView dismiss:YES];
-                    });
-                }
-            } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    overlayView.mode = MRProgressOverlayViewModeCross;
-                    overlayView.titleLabelText = @"Network Error";
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [overlayView dismiss:YES];
-                    });
-                });
-            }
-        });
+        NSString *urlString = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/setStatus?user=%@&statusmsg=%@&pin=%@",[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"],text, [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [ApplicationDelegate sendRequestWithURL:urlString successBlock:^{
+            [rowDetailAry replaceObjectAtIndex:5 withObject:text];
+            [UserDefaults setObject:text forKey:@"status"];
+            [UserDefaults synchronize];
+            [self.tableView reloadData];
+        }];
     }
 }
 

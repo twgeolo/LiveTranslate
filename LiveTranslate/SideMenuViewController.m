@@ -1,9 +1,9 @@
 //
 //  SideMenuViewController.m
-//  MusicMate
+//  LiveTranslate
 //
 //  Created by George Lo on 3/30/14.
-//  Copyright (c) 2014 George Lo. All rights reserved.
+//  Copyright (c) 2014 George Lo & Krishnabh Medhi. All rights reserved.
 //
 
 #import "SideMenuViewController.h"
@@ -46,7 +46,6 @@
     [self.view addSubview:self.tableView];
     titleAry = [NSArray arrayWithObjects:@"Profile", @"Friends", @"Chats", @"Settings", @"Report Bug", @"", @"LiveTranslate 1.0\n   by log & kmedhi", nil];
     imageAry = [NSArray arrayWithObjects:@"Profile", @"Friends", @"Chats", @"Settings", @"Report Bug", nil];
-	// Do any additional setup after loading the view.
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -59,11 +58,7 @@
             [self.sideMenuViewController hideMenuViewController];
             break;
         case 1:
-            if ([UserDefaults integerForKey:@"FriendsGrid"]) {
-                [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[[FriendsCollectionViewController alloc] init]] animated:YES];
-            } else {
-                [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[[FriendsTableViewController alloc] init]] animated:YES];
-            }
+            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[[FriendsViewController alloc] init]] animated:YES];
             [self.sideMenuViewController hideMenuViewController];
             break;
         case 2:
@@ -141,7 +136,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

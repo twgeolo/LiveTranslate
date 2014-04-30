@@ -277,6 +277,9 @@
  @see [`sqlite3_bind`](http://sqlite.org/c3ref/bind_blob.html)
  */
 
+- (FMResultSet *)executeQuery:(NSString *)sql withArgumentsInArray:(NSArray*)arrayArgs orDictionary:(NSDictionary *)dictionaryArgs orVAList:(va_list)args;
+- (BOOL)executeUpdate:(NSString*)sql error:(NSError**)outErr withArgumentsInArray:(NSArray*)arrayArgs orDictionary:(NSDictionary *)dictionaryArgs orVAList:(va_list)args;
+
 - (BOOL)executeUpdate:(NSString*)sql, ...;
 
 /** Execute update statement

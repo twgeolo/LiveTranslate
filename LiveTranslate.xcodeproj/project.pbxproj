@@ -69,7 +69,6 @@
 		5E2E3514190E20C800BFBC15 /* SIAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5E2E350F190E20C800BFBC15 /* SIAlertView.bundle */; };
 		5E2E3515190E20C800BFBC15 /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E2E3511190E20C800BFBC15 /* SIAlertView.m */; };
 		5E2E3516190E20C800BFBC15 /* UIWindow+SIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E2E3513190E20C800BFBC15 /* UIWindow+SIUtils.m */; };
-		5E2E351C190E87BE00BFBC15 /* FriendsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E2E351B190E87BE00BFBC15 /* FriendsCollectionViewController.m */; };
 		5E573325190838B100BFFCDC /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57331B190838B100BFFCDC /* FMDatabase.m */; };
 		5E573326190838B100BFFCDC /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57331D190838B100BFFCDC /* FMDatabaseAdditions.m */; };
 		5E573327190838B100BFFCDC /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57331F190838B100BFFCDC /* FMDatabasePool.m */; };
@@ -95,7 +94,7 @@
 		5E7F2C47190474E200872131 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7F2C46190474E200872131 /* QuartzCore.framework */; };
 		5E7F2C4B190475FC00872131 /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C4A190475FC00872131 /* FXBlurView.m */; };
 		5E7F2C4E1904D99100872131 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C4D1904D99100872131 /* RegisterViewController.m */; };
-		5E7F2C5419058FC200872131 /* FriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5319058FC200872131 /* FriendsTableViewController.m */; };
+		5E7F2C5419058FC200872131 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5319058FC200872131 /* FriendsViewController.m */; };
 		5E7F2C5A19058FE100872131 /* ChatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5919058FE100872131 /* ChatsViewController.m */; };
 		5E7F2C5D19058FEC00872131 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C5C19058FEC00872131 /* SettingsViewController.m */; };
 		5E7F2C661905CFC200872131 /* YIPopupTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7F2C631905CFC200872131 /* YIPopupTextView.m */; };
@@ -200,8 +199,6 @@
 		5E2E3511190E20C800BFBC15 /* SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertView.m; sourceTree = "<group>"; };
 		5E2E3512190E20C800BFBC15 /* UIWindow+SIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+SIUtils.h"; sourceTree = "<group>"; };
 		5E2E3513190E20C800BFBC15 /* UIWindow+SIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+SIUtils.m"; sourceTree = "<group>"; };
-		5E2E351A190E87BE00BFBC15 /* FriendsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsCollectionViewController.h; sourceTree = "<group>"; };
-		5E2E351B190E87BE00BFBC15 /* FriendsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsCollectionViewController.m; sourceTree = "<group>"; };
 		5E57331A190838B100BFFCDC /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		5E57331B190838B100BFFCDC /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		5E57331C190838B100BFFCDC /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -247,8 +244,8 @@
 		5E7F2C4A190475FC00872131 /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
 		5E7F2C4C1904D99100872131 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		5E7F2C4D1904D99100872131 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
-		5E7F2C5219058FC200872131 /* FriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewController.h; sourceTree = "<group>"; };
-		5E7F2C5319058FC200872131 /* FriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewController.m; sourceTree = "<group>"; };
+		5E7F2C5219058FC200872131 /* FriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsViewController.h; sourceTree = "<group>"; };
+		5E7F2C5319058FC200872131 /* FriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsViewController.m; sourceTree = "<group>"; };
 		5E7F2C5819058FE100872131 /* ChatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatsViewController.h; sourceTree = "<group>"; };
 		5E7F2C5919058FE100872131 /* ChatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatsViewController.m; sourceTree = "<group>"; };
 		5E7F2C5B19058FEC00872131 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -671,10 +668,8 @@
 			children = (
 				5E901D66190A307800C8FEB4 /* ProfileViewController.h */,
 				5E901D67190A307800C8FEB4 /* ProfileViewController.m */,
-				5E2E351A190E87BE00BFBC15 /* FriendsCollectionViewController.h */,
-				5E2E351B190E87BE00BFBC15 /* FriendsCollectionViewController.m */,
-				5E7F2C5219058FC200872131 /* FriendsTableViewController.h */,
-				5E7F2C5319058FC200872131 /* FriendsTableViewController.m */,
+				5E7F2C5219058FC200872131 /* FriendsViewController.h */,
+				5E7F2C5319058FC200872131 /* FriendsViewController.m */,
 				5E7F2C5819058FE100872131 /* ChatsViewController.h */,
 				5E7F2C5919058FE100872131 /* ChatsViewController.m */,
 				5E7F2C5B19058FEC00872131 /* SettingsViewController.h */,
@@ -906,8 +901,7 @@
 				5E7F2C661905CFC200872131 /* YIPopupTextView.m in Sources */,
 				5E140DC219100F60006802CF /* JSMessageTableView.m in Sources */,
 				5E140DBD19100F60006802CF /* JSDismissiveTextView.m in Sources */,
-				5E2E351C190E87BE00BFBC15 /* FriendsCollectionViewController.m in Sources */,
-				5E7F2C5419058FC200872131 /* FriendsTableViewController.m in Sources */,
+				5E7F2C5419058FC200872131 /* FriendsViewController.m in Sources */,
 				5E7F2C5A19058FE100872131 /* ChatsViewController.m in Sources */,
 				5E7F2C8F1905DACC00872131 /* MRNavigationBarProgressView.m in Sources */,
 				5E62E3221909A7610029BA9E /* RECommonFunctions.m in Sources */,
@@ -1038,6 +1032,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveTranslate/LiveTranslate-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INFOPLIST_FILE = "LiveTranslate/LiveTranslate-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1054,6 +1049,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveTranslate/LiveTranslate-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INFOPLIST_FILE = "LiveTranslate/LiveTranslate-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";

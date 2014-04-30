@@ -9,13 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <AddressBook/AddressBook.h>
 #import "MRProgress.h"
-#import "FMDatabase.h"
 #import "Person.h"
 #import "FXBlurView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIViewController+CWPopup.h"
 #import "BButton.h"
 
-@interface FriendsTableViewController : UITableViewController <UIAlertViewDelegate, UIGestureRecognizerDelegate>
+@interface FriendsViewController : UITableViewController <UIAlertViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate>
 
 @end
