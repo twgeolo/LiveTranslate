@@ -257,6 +257,10 @@
         [self.delegate configureCell:cell atIndexPath:indexPath];
     }
     
+    cell.timestampLabel.textColor = [UIColor whiteColor];
+    cell.timestampLabel.shadowColor = [UIColor whiteColor];
+    cell.subtitleLabel.textColor = [UIColor whiteColor];
+    
     return cell;
 }
 
@@ -290,7 +294,7 @@
 {
     self.view.backgroundColor = color;
     _tableView.backgroundColor = color;
-    _tableView.separatorColor = color;
+    _tableView.separatorColor = [UIColor clearColor];
 }
 
 - (void)scrollToBottomAnimated:(BOOL)animated

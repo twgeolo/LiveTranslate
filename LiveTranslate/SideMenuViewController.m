@@ -71,8 +71,8 @@
             break;
         case 4:
             mc = [[MFMailComposeViewController alloc] init];
-            mc.navigationItem.leftBarButtonItem.tintColor = [UIColor redColor];
-            mc.navigationItem.rightBarButtonItem.tintColor = [UIColor blueColor];
+			mc.navigationItem.leftBarButtonItem.tintColor = [UIColor blueColor];
+			mc.navigationItem.rightBarButtonItem.tintColor = [UIColor blueColor];
             mc.navigationBar.titleTextAttributes = @{
                                                      NSForegroundColorAttributeName: [UIColor blackColor],
                                                      NSFontAttributeName: [UIFont systemFontOfSize:17]
@@ -81,6 +81,7 @@
             [mc setSubject:@"LiveTranslate 1.0"];
             [mc setMessageBody:[NSString stringWithFormat:@"CS 252 Lab 6 by George Lo and Krishnabh Medhi\n\nNSThread Stack Trace:\n%@", [NSThread callStackSymbols]] isHTML:NO];
             [mc setToRecipients:[NSArray arrayWithObjects:@"log@purdue.edu", @"kmedhi@purdue.edu", nil]];
+            [mc.navigationController.navigationBar setTintColor:[UIColor blueColor]];
             [self presentViewController:mc animated:YES completion:NULL];
         default:
             break;

@@ -471,17 +471,11 @@ typedef enum {
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     
     //
-    // NOTE:
-    // UIKeyboardWillShowNotification is not called when using iPad with splitted keyboard,
-    // so use willChangeFrameNotification instead.
-    //
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onKeyboardWillChangeFrameNotification:)
                                                  name:UIKeyboardWillChangeFrameNotification
                                                object:nil];
     
-    // CAUTION: UIKeyboardDidChangeFrameNotification returns wrong keyboardRect when using iPhone + Japanese keyboard
-    // NOTE: required for iPad + splitted keyboard
     if (IS_IPAD) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(onKeyboardDidChangeFrameNotification:)

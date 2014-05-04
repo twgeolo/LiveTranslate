@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CRGradientNavigationBar.h"
+#import "ChatSelectFriendViewController.h"
+#import "ChatMessagesViewController.h"
+#import "UIViewController+CWPopup.h"
 
-@interface ChatsViewController : UITableViewController
+@interface ChatsViewController : UITableViewController <UIGestureRecognizerDelegate>
 
 @end

@@ -184,6 +184,7 @@
 }
 
 - (IBAction)logOut:(id)sender {
+    [ApplicationDelegate stopRetrieveMessage];
     [self.navigationController.sideMenuViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

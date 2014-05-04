@@ -19,7 +19,11 @@
     #import "SIAlertView.h"
 #endif
 
-// Useful Macros
+// Macro Settings
+#define FORCE_LOGIN 0
+#define DUMMY_DATA 0
+
+// Useful iOS Macros
 #define ApplicationDelegate                 ((AppDelegate *)[[UIApplication sharedApplication] delegate])
 #define UserDefaults                        [NSUserDefaults standardUserDefaults]
 #define NotificationCenter                  [NSNotificationCenter defaultCenter]

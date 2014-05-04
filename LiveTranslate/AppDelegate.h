@@ -13,6 +13,9 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+
+- (void)startRetrieveMessage;
+- (void)stopRetrieveMessage;
 - (FMResultSet *)executeQuery:(NSString*)sql, ...;
 - (BOOL)executeUpdate:(NSString*)sql, ...;
 - (void)sendRequestWithURL: (NSString *)urlStr

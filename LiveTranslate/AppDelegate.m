@@ -8,7 +8,9 @@
 
 #import "AppDelegate.h"
 
-@implementation AppDelegate
+@implementation AppDelegate {
+    NSTimer *timer;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -20,14 +22,74 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
     [self executeUpdate:@"CREATE TABLE IF NOT EXISTS Friends (userName TEXT, realName TEXT, displayName TEXT, status TEXT, phone TEXT, gender INT, image BLOB)"];
-    [self executeUpdate:@"CREATE TABLE IF NOT EXISTS Messages (toUserName TEXT, message TEXT, TIMESTAMP TEXT)"];
+    [self executeUpdate:@"CREATE TABLE IF NOT EXISTS Messages (withUser TEXT, sender TEXT, message TEXT, timeStamp INT)"];
     
     if ([UserDefaults objectForKey:@"Lang"] == nil) {
         [UserDefaults setObject:@"en" forKey:@"Lang"];
         [UserDefaults synchronize];
     }
     
+    
+    if (DUMMY_DATA) {
+        NSLog(@"Creating Dummy Data ---------------");
+        NSArray *sampleArray = [NSArray arrayWithObjects:
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=ksawant&pin=123456&phone=805-410-2334&realname=Kartik%20Sawant&gender=M",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=wtsai&pin=123456&phone=206-973-9963&realname=Wesley%20Tsai&gender=M",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=mlee&pin=123456&phone=513-720-7749&realname=Ming%20Lee&gender=F",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=ksu&pin=123456&phone=604-655-7567&realname=Kevin%20Su&gender=M",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=ahsu&pin=123456&phone=770-558-0602&realname=Angel%20Hsu&gender=F",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=kmedhi&pin=123456&phone=505-652-2451&realname=Krishnabh%20Medhi&gender=M",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=dcheng&pin=123456&phone=949-500-4593&realname=Daniel%20Cheng&gender=M",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=tchu&pin=123456&phone=858-692-0632&realname=Terry%20Chu&gender=M",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=bcheng&pin=123456&phone=949-378-6669&realname=Brian%20Cheng&gender=M",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=tkembura&pin=123456&phone=312-780-9832&realname=Tatum%20Kembura&gender=F",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=aliu&pin=123456&phone=917-257-0694&realname=Andy%20Liu&gender=M",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=psullivan&pin=123456&phone=980-248-9239&realname=Patrick%20Sullivan&gender=M",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=ktakemae&pin=123456&phone=857-919-5841&realname=Keisuke%20Takemae&gender=M",
+                                @"http://ec2-54-81-194-68.compute-1.amazonaws.com/register?name=jtsai&pin=123456&phone=091-550-3655&realname=James%20Tsai&gender=M",
+                                nil];
+        for (NSString *sample in sampleArray) {
+            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:sample]];
+            if (data) {
+                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                NSLog(@"%@ - %@\n",[dict objectForKey:@"success"],[dict objectForKey:@"message"]);
+            }
+        }
+        NSLog(@"Finished");
+    }
+    
     return YES;
+}
+
+- (void)startRetrieveMessage {
+    timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(retrieveMessages:) userInfo:nil repeats:YES];
+}
+
+- (void)stopRetrieveMessage {
+    [timer invalidate];
+}
+
+- (IBAction)retrieveMessages:(id)sender {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSString *urlStr = [NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/receive?user=%@&pin=%@&userLang=%@", [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"], [UserDefaults objectForKey:@"Lang"]];
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlStr]];
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSArray *arr = [dict objectForKey:@"results"];
+            if (arr.count > 0) {
+                for (NSDictionary *msgDict in arr) {
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+                    [dateFormatter setLocale:enUSPOSIXLocale];
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'.000Z'"];
+                    NSDate *timeStamp = [dateFormatter dateFromString:[msgDict objectForKey:@"timestamp"]];
+                    timeStamp = [NSDate dateWithTimeInterval:-14400 sinceDate:timeStamp];
+                    
+                    [self executeUpdate:@"INSERT INTO Messages (withUser, sender, message, timeStamp) VALUES (?, ?, ?, ?)", [msgDict objectForKey:@"from"], [msgDict objectForKey:@"from"], [msgDict objectForKey:@"message"], [NSNumber numberWithDouble:[timeStamp timeIntervalSince1970]]];
+                }
+            }
+        }
+    });
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

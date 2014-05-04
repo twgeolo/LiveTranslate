@@ -106,6 +106,17 @@
     tapRecognizer.numberOfTapsRequired = 1;
     tapRecognizer.delegate = self;
     self.navigationController.useBlurForPopup = YES;
+    
+    UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [addBtn setImage:[UIImage imageNamed:@"Add"] forState:UIControlStateNormal];
+    [addBtn addTarget:self action:@selector(addFriend:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
+}
+
+- (IBAction)addFriend:(id)sender {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Add friend" message:@"Enter your friend's username" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Done", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
 }
 
 - (void)didReceiveMemoryWarning
@@ -282,7 +293,73 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (![[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) {
-        if ([alertView.title isEqualToString:@"Edit Friend's name"]) {
+        if ([alertView.title isEqualToString:@"Add friend"]) {
+            NSString *newName = [alertView textFieldAtIndex:0].text;
+            if (newName.length <= 0) {
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:@"You did not enter anything"];
+                [alertView addButtonWithTitle:@"OK" type:SIAlertViewButtonTypeDestructive handler:nil];
+                [alertView show];
+                return;
+            }
+            
+            for (Person *friend in friendsAry) {
+                if ([friend.userName isEqualToString:newName]) {
+                    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:@"You are already friend with him/her"];
+                    [alertView addButtonWithTitle:@"OK" type:SIAlertViewButtonTypeDestructive handler:nil];
+                    [alertView show];
+                    return;
+                }
+            }
+            
+            MRProgressOverlayView *overlay = [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view animated:YES];
+            overlay.titleLabelText = @"Loading";
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/profile=%@", newName]]];
+                if (data) {
+                    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                    if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            overlay.titleLabelText = @"Success";
+                            overlay.mode = MRProgressOverlayViewModeCheckmark;
+                            
+                            [ApplicationDelegate executeUpdate:@"INSERT INTO Friends (userName, realName, displayName, status, phone, gender) VALUES (?,?,?,?,?,?)", newName, [dict objectForKey:@"user_realName"], [dict objectForKey:@"user_realName"], [dict objectForKey:@"user_status"], [dict objectForKey:@"user_phoneNumber"], [dict objectForKey:@"user_gender"]];
+                            Person *friend = [[Person alloc] init];
+                            friend.userName = newName;
+                            friend.realName = [dict objectForKey:@"user_realName"];
+                            friend.displayName = [dict objectForKey:@"user_realName"];
+                            friend.status = [dict objectForKey:@"user_status"];
+                            friend.phone = [dict objectForKey:@"user_phoneNumber"];
+                            friend.gender = [dict objectForKey:@"user_gender"];
+                            friend.imageData = nil;
+                            [friendsAry addObject:friend];
+                            self.navigationItem.title = [NSString stringWithFormat:@"Friends (%lu)", (unsigned long)friendsAry.count];
+                            [friendCollectionView reloadData];
+                            [self.tableView reloadData];
+                            
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                [overlay dismiss:YES];
+                            });
+                        });
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            overlay.titleLabelText = @"Failed";
+                            overlay.mode = MRProgressOverlayViewModeCross;
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                [overlay dismiss:YES];
+                            });
+                        });
+                    }
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        overlay.titleLabelText = @"Network Error";
+                        overlay.mode = MRProgressOverlayViewModeCross;
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [overlay dismiss:YES];
+                        });
+                    });
+                }
+            });
+        } else if ([alertView.title isEqualToString:@"Edit Friend's name"]) {
             NSString *newName = [alertView textFieldAtIndex:0].text;
             if (newName.length <= 0) {
                 SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:@"You did not enter anything"];
