@@ -14,6 +14,7 @@
 
 @implementation ChatSelectFriendViewController {
 	NSMutableArray *friendsAry;
+    NSMutableArray *selectedFriend;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -29,9 +30,8 @@
 {
     [super viewDidLoad];
 	friendsAry = [NSMutableArray new];
-	
-	self.tableView.rowHeight = 44;
-	self.tableView.separatorColor = [UIColor clearColor];
+    selectedFriend = [NSMutableArray new];
+    self.tableView.rowHeight = 50;
 	
 	FMDatabase *db = [FMDatabase databaseWithPath:[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"LiveTranslate.db"]];
 	if ([db open]) {
@@ -50,22 +50,18 @@
 	}
 	[db close];
 	
-    UIImage *wallpaper = [UIImage imageNamed:@"SignInWallpaper"];
-    wallpaper = [wallpaper blurredImageWithRadius:5 iterations:2 tintColor:[UIColor blackColor]];
-    UIImageView *backgroundIV = [[UIImageView alloc] initWithImage:wallpaper];
-    backgroundIV.frame = CGRectMake(0, 0, 240, 400);
-    backgroundIV.contentMode = UIViewContentModeScaleToFill;
-	UIView *blackView = [[UIView alloc] initWithFrame:backgroundIV.frame];
-    blackView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.83];
-    [backgroundIV addSubview:blackView];
-	self.tableView.backgroundView = backgroundIV;
-	
 	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
 	titleLabel.font = [UIFont boldSystemFontOfSize:20];
-    titleLabel.text = @"Select a friend";
+    titleLabel.text = @"Friends";
     titleLabel.textAlignment = NSTextAlignmentCenter;
-	titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = titleLabel;
+    self.navigationItem.prompt = @"Select one or more friends";
+    
+    [ApplicationDelegate customizeViewController:self tableView:YES];
+    
+    UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self.navigationController action:@selector(dismissModalViewControllerAnimated:)];
+    self.navigationItem.leftBarButtonItem = cancelBtn;
 }
 
 - (void)didReceiveMemoryWarning
@@ -98,19 +94,50 @@
     }
     
     Person *friend = [friendsAry objectAtIndex:indexPath.row];
-	cell.backgroundColor = [UIColor clearColor];
+    cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.text = friend.displayName;
-    cell.textLabel.font = [UIFont systemFontOfSize:17];
     cell.textLabel.textColor = [UIColor whiteColor];
-    if (friend.imageData!=(NSData *)[NSNull null]) {
-        cell.imageView.image = [ApplicationDelegate circularImage:[UIImage imageWithData:friend.imageData] withFrame:CGRectMake(0, 0, 38, 38)];
-        cell.imageView.layer.borderWidth = 1.5;
-        cell.imageView.layer.borderColor = [UIColor whiteColor].CGColor;
-        cell.imageView.layer.cornerRadius = 19;
+    cell.textLabel.font = [UIFont systemFontOfSize:17];
+    if (friend.imageData!=(NSData *)[NSNull null] && friend.imageData!=nil) {
+        cell.imageView.image = [ApplicationDelegate makeCircularImage:[UIImage imageWithData:friend.imageData] withFrame:CGRectMake(0, 0, 40, 40)];
+    } else {
+        if ([friend.gender isEqualToString:@"M"]) {
+            cell.imageView.image = [ApplicationDelegate makeCircularImage:[UIImage imageNamed:@"Male"] withFrame:CGRectMake(0, 0, 40, 40)];
+        } else {
+            cell.imageView.image = [ApplicationDelegate makeCircularImage:[UIImage imageNamed:@"Female"] withFrame:CGRectMake(0, 0, 40, 40)];
+        }
     }
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.imageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    cell.imageView.layer.borderWidth = 1.5;
+    cell.imageView.layer.cornerRadius = 20;
+    cell.imageView.layer.masksToBounds = YES;
+    cell.accessoryType = [selectedFriend containsObject:friend.displayName] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *text = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
+    
+    if ([selectedFriend containsObject:text]) {
+        [selectedFriend removeObject:text];
+    } else {
+        [selectedFriend addObject:text];
+    }
+    
+    if (selectedFriend.count > 0) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(sendMessageToFriend:)];
+    } else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (IBAction)sendMessageToFriend:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [((ChatsViewController *)self.oriSender) sendMessageToPeople:selectedFriend];
+    }];
 }
 
 @end

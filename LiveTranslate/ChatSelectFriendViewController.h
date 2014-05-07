@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ChatsViewController.h"
 
 @interface ChatSelectFriendViewController : UITableViewController
+
+@property (nonatomic) UIViewController *oriSender;
 
 @end

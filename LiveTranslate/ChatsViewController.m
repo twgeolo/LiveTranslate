@@ -14,9 +14,11 @@
 
 @implementation ChatsViewController {
     NSMutableArray *friendCellAry;
-	UITapGestureRecognizer *tapRecognizer;
 	UILabel *hintLabel;
     NSTimer *timer;
+    NSMutableArray *peopleArray;
+    BOOL loaded;
+    NSMutableArray *deleteUsrAry;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -31,6 +33,8 @@
 {
     [super viewDidLoad];
     
+    deleteUsrAry = [NSMutableArray new];
+    
     self.navigationItem.title = @"Chats";
     friendCellAry = [NSMutableArray new];
     
@@ -42,11 +46,6 @@
 	[addBtn addTarget:self action:@selector(showSelectionView:) forControlEvents:UIControlEventTouchUpInside];
 	addBtn.frame = CGRectMake(0, 0, 25, 25);
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
-	
-    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPopup:)];
-    tapRecognizer.numberOfTapsRequired = 1;
-    tapRecognizer.delegate = self;
-    self.navigationController.useBlurForPopup = YES;
 	
 	hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 60, ScreenWidth-120, 80)];
 	hintLabel.numberOfLines = 3;
@@ -61,65 +60,75 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [timer invalidate];
+    
+    
+    for (NSString *username in deleteUsrAry) {
+        [ApplicationDelegate executeUpdate:@"DELETE FROM Messages WHERE withUser == ?", username];
+    }
+    
+    [deleteUsrAry removeAllObjects];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self.tableView selector:@selector(reloadData) userInfo:nil repeats:YES];
-    [friendCellAry removeAllObjects];
-    
-    FMResultSet *s = [ApplicationDelegate executeQuery:@"SELECT Friends.image, Friends.userName, Friends.displayName, Messages.message FROM Messages INNER JOIN Friends WHERE Friends.userName == Messages.withUser GROUP BY Friends.userName ORDER BY Messages.timeStamp DESC"];
-    while ([s next]) {
-        NSArray *infoAry = [NSArray arrayWithObjects:
-                            [s objectForColumnIndex:0],
-                            [s objectForColumnIndex:1],
-                            [s objectForColumnIndex:2],
-                            [s objectForColumnIndex:3],
-                            nil];
-        [friendCellAry addObject:infoAry];
+    if (!loaded || [UserDefaults boolForKey:@"hasNewMessage"]) {
+        MRActivityIndicatorView *indicatorView = [[MRActivityIndicatorView alloc] initWithFrame:CGRectMake((ScreenWidth-50)/2, 30, 50, 50)];
+        indicatorView.tintColor = [UIColor colorWithRed:0 green:172./255 blue:1 alpha:1];
+        [self.tableView addSubview:indicatorView];
+        [indicatorView startAnimating];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            [friendCellAry removeAllObjects];
+            
+            FMResultSet *s = [ApplicationDelegate executeQuery:@"SELECT Friends.image, Friends.userName, Friends.displayName, Messages.message, Friends.gender FROM Messages INNER JOIN Friends WHERE Friends.userName == Messages.withUser GROUP BY Friends.userName ORDER BY Messages.timeStamp DESC"];
+            while ([s next]) {
+                UIImage *img;
+                if ([s objectForColumnIndex:0]!=(NSData *)[NSNull null]) {
+                    img = [UIImage imageWithData:[s objectForColumnIndex:0]];
+                    
+                } else {
+                    if ([[s objectForColumnIndex:4] isEqualToString:@"M"]) {
+                        img = [UIImage imageNamed:@"Male"];
+                    } else {
+                        img = [UIImage imageNamed:@"Female"];
+                    }
+                }
+                NSArray *infoAry = [NSArray arrayWithObjects:
+                                    img,
+                                    [s objectForColumnIndex:1],
+                                    [s objectForColumnIndex:2],
+                                    [s objectForColumnIndex:3],
+                                    nil];
+                [friendCellAry addObject:infoAry];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [indicatorView stopAnimating];
+                [indicatorView removeFromSuperview];
+                
+                if (friendCellAry.count == 0) {
+                    [self.tableView addSubview:hintLabel];
+                } else {
+                    [hintLabel removeFromSuperview];
+                }
+                
+                [self.tableView reloadData];
+            });
+            timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self.tableView selector:@selector(reloadData) userInfo:nil repeats:YES];
+            
+            loaded = YES;
+            [UserDefaults setBool:NO forKey:@"hasNewMessage"];
+            [UserDefaults synchronize];
+        });
     }
-	
-	if (friendCellAry.count == 0) {
-		[self.tableView addSubview:hintLabel];
-	} else {
-        [hintLabel removeFromSuperview];
-    }
-    
-    [self.tableView reloadData];
 }
 
 - (IBAction)showSelectionView:(id)sender {
 	ChatSelectFriendViewController *viewController = [[ChatSelectFriendViewController alloc] init];
-	viewController.tableView.delegate = self;
-	UINavigationController *navController = [[UINavigationController alloc] initWithNavigationBarClass:[CRGradientNavigationBar class] toolbarClass:nil];
-	UIColor *firstColor = [UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:1.0f];
-    UIColor *secondColor = [UIColor colorWithRed:55.0f/255.0f green:55.0f/255.0f blue:55.0f/255.0f alpha:1.0f];
-    NSArray *colors = [NSArray arrayWithObjects:(id)firstColor.CGColor, (id)secondColor.CGColor, nil];
-    [[CRGradientNavigationBar appearance] setBarTintGradientColors:colors];
-	navController.navigationBar.translucent = NO;
-	navController.viewControllers = @[viewController];
-	navController.view.frame = CGRectMake(0, 0, 240, 400);
-	[self.navigationController presentPopupViewController:navController animated:YES completion:nil];
-    [self.view addGestureRecognizer:tapRecognizer];
+    viewController.oriSender = self;
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+	[self.navigationController presentViewController:navController animated:YES completion:nil];
 }
-
-- (IBAction)dismissPopup:(id)sender {
-    UITapGestureRecognizer *recognizer = (UITapGestureRecognizer *)sender;
-    CGPoint location = [recognizer locationInView:self.navigationController.view];
-    NSInteger width = (ScreenWidth - 240) / 2;
-    NSInteger height = (ScreenHeight - 400) / 2;
-    if (self.navigationController.popupViewController != nil &&
-        (location.x < width ||
-         location.x > ScreenWidth-width ||
-         location.y < height ||
-         location.y > ScreenHeight-height)
-		) {
-        [self.navigationController dismissPopupViewControllerAnimated:YES completion:nil];
-        [self.navigationController.view removeGestureRecognizer:tapRecognizer];
-    }
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -155,7 +164,7 @@
     cell.backgroundColor = [UIColor clearColor];
     
     NSArray *infoAry = [friendCellAry objectAtIndex:indexPath.row];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:[infoAry objectAtIndex:0]]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[infoAry objectAtIndex:0]];
     imageView.frame = CGRectMake(15, 10, 50, 50);
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -177,10 +186,11 @@
     messageView.textColor = [UIColor colorWithWhite:0.85 alpha:1.0];
     messageView.userInteractionEnabled = NO;
     [cell.contentView addSubview:messageView];
-	
-    UIView *whiteLine = [[UIView alloc] initWithFrame:CGRectMake(5, 69.5, ScreenWidth-10, 0.5)];
-    whiteLine.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
-    [cell.contentView addSubview:whiteLine];
+    
+    CALayer *layer = [CALayer layer];
+    layer.frame = CGRectMake(5, 69.5, ScreenWidth-10, 0.5);
+    layer.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
+    [cell.contentView.layer addSublayer:layer];
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
@@ -188,26 +198,104 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (tableView == self.tableView) {
-        NSArray *infoArray = [friendCellAry objectAtIndex:indexPath.row];
-        ChatMessagesViewController *viewController = [[ChatMessagesViewController alloc] init];
-        viewController.userName = [infoArray objectAtIndex:1];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
-        navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:navController animated:YES completion:nil];
-	} else {
-        [self.navigationController dismissPopupViewControllerAnimated:YES completion:nil];
+    NSArray *infoArray = [friendCellAry objectAtIndex:indexPath.row];
+    ChatMessagesViewController *viewController = [[ChatMessagesViewController alloc] init];
+    viewController.userName = [infoArray objectAtIndex:1];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:navController animated:YES completion:nil];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *displayName = [[friendCellAry objectAtIndex:indexPath.row] objectAtIndex:2];
+            NSString *username = @"";
+            FMResultSet *s = [ApplicationDelegate executeQuery:@"SELECT userName FROM Friends WHERE displayName=?", displayName];
+            if ([s next]) {
+                username = [s objectForColumnIndex:0];
+            }
+            [deleteUsrAry addObject:username];
+            [friendCellAry removeObjectAtIndex:indexPath.row];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            });
+        });
+    }
+}
+
+- (void)sendMessageToPeople:(NSArray *)pplAry {
+    if (pplAry.count == 1) {
         ChatMessagesViewController *viewController = [[ChatMessagesViewController alloc] init];
         viewController.userName = @"";
-        FMResultSet *s = [ApplicationDelegate executeQuery:@"SELECT userName FROM Friends WHERE displayName=?", [tableView cellForRowAtIndexPath:indexPath].textLabel.text];
+        FMResultSet *s = [ApplicationDelegate executeQuery:@"SELECT userName FROM Friends WHERE displayName=?", [pplAry objectAtIndex:0]];
         if ([s next]) {
             viewController.userName = [s objectForColumnIndex:0];
         }
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
         navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self presentViewController:navController animated:YES completion:nil];
-	}
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    } else if (pplAry.count > 1) {
+        peopleArray = [NSMutableArray new];
+        for (NSString *user in pplAry) {
+            FMResultSet *s = [ApplicationDelegate executeQuery:@"SELECT userName FROM Friends WHERE displayName=?", user];
+            if ([s next]) {
+                [peopleArray addObject:[s objectForColumnIndex:0]];
+            }
+        }
+        YIPopupTextView* popupTextView = [[YIPopupTextView alloc] initWithPlaceHolder:@"" maxCount:140 buttonStyle:YIPopupTextViewButtonStyleRightCancelAndDone];
+        popupTextView.delegate = self;
+        popupTextView.caretShiftGestureEnabled = YES;
+        popupTextView.placeholderColor = [UIColor lightTextColor];
+        [popupTextView showInViewController:self];
+    }
+}
+
+- (void)popupTextView:(YIPopupTextView *)textView willDismissWithText:(NSString *)text cancelled:(BOOL)cancelled {
+    if (!cancelled) {
+        NSString *toUserStr = [NSString stringWithFormat:@"toUser=%@", [peopleArray objectAtIndex:0]];
+        for (int i=1; i<peopleArray.count; i++) {
+            toUserStr = [toUserStr stringByAppendingFormat:@"&toUser=%@", [peopleArray objectAtIndex:i]];
+        }
+        NSString *urlStr = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/send?sourceLang=%@&%@&user=%@&pin=%@&message=%@", [UserDefaults objectForKey:@"Lang"], toUserStr, [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"], text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [ApplicationDelegate sendRequestWithURL:urlStr successBlock:^{
+            for (NSString *user in peopleArray) {
+                [ApplicationDelegate executeUpdate:@"INSERT INTO Messages (withUser, sender, message, timeStamp) VALUES (?, ?, ?, ?)", user, [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], text, [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
+            }
+            [friendCellAry removeAllObjects];
+            
+            FMResultSet *s = [ApplicationDelegate executeQuery:@"SELECT Friends.image, Friends.userName, Friends.displayName, Messages.message, Friends.gender FROM Messages INNER JOIN Friends WHERE Friends.userName == Messages.withUser GROUP BY Friends.userName ORDER BY Messages.timeStamp DESC"];
+            while ([s next]) {
+                UIImage *img;
+                if ([s objectForColumnIndex:0]!=(NSData *)[NSNull null]) {
+                    img = [UIImage imageWithData:[s objectForColumnIndex:0]];
+                    
+                } else {
+                    if ([[s objectForColumnIndex:4] isEqualToString:@"M"]) {
+                        img = [UIImage imageNamed:@"Male"];
+                    } else {
+                        img = [UIImage imageNamed:@"Female"];
+                    }
+                }
+                NSArray *infoAry = [NSArray arrayWithObjects:
+                                    img,
+                                    [s objectForColumnIndex:1],
+                                    [s objectForColumnIndex:2],
+                                    [s objectForColumnIndex:3],
+                                    nil];
+                [friendCellAry addObject:infoAry];
+            }
+            
+            if (friendCellAry.count == 0) {
+                [self.tableView addSubview:hintLabel];
+            } else {
+                [hintLabel removeFromSuperview];
+            }
+            
+            [self.tableView reloadData];
+        }];
+    }
 }
 
 @end

@@ -64,9 +64,7 @@
     NSInteger TFWidth = ScreenWidth-60;
     NSInteger TFHeight = 44;
     UITextField *userTF = [ApplicationDelegate makeSignInTFWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, nameLabel.frame.origin.y+22+40, TFWidth, TFHeight) tag:0 delegate:self placeholder:@"Username" image:@"Username"];
-    userTF.text = @"log";
     UITextField *passTF = [ApplicationDelegate makeSignInTFWithFrame:CGRectMake((ScreenWidth-TFWidth)/2, userTF.frame.origin.y+40+20, TFWidth, TFHeight) tag:1 delegate:self placeholder:@"PIN" image:@"Password"];
-    passTF.text = @"12345678";
     passTF.secureTextEntry = YES;
     
     // Setup Sign In Button
@@ -115,7 +113,7 @@
 - (IBAction)bright:(id)sender {
     if (![UserDefaults integerForKey:@"NoGlow"]) {
         [UIView animateWithDuration:2 animations:^{
-            blackView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.68];
+            blackView.backgroundColor = [UIColor colorWithWhite:0.38 alpha:0.68];
         } completion:^(BOOL finished){
             [self dim:sender];
         }];

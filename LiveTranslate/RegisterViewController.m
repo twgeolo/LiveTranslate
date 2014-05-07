@@ -14,6 +14,7 @@
 
 @implementation RegisterViewController {
     NSMutableArray *dataArray;
+    UITextField *currTF;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -155,26 +156,29 @@
 }
 
 - (IBAction)dismissKeyboard:(id)sender {
+    [currTF resignFirstResponder];
     [UIView animateWithDuration:0.3 animations:^{
         self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     }];
-    for (UIView *subView in self.view.subviews) {
-        subView.isFirstResponder ? [subView resignFirstResponder] : 0;
-    }
+    currTF = nil;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if (textField.tag == 5) {
+        if (currTF == nil) {
+            [textField resignFirstResponder];
+        }
         [[[UIAlertView alloc] initWithTitle:@"Gender" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Male", @"Female", nil] show];
-        [self dismissKeyboard:nil];
     } else {
         [UIView animateWithDuration:0.3 animations:^{
             self.view.frame = CGRectMake(0, -90, self.view.frame.size.width, self.view.frame.size.height);
         }];
     }
+    currTF = textField;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    [self dismissKeyboard:nil];
     if (![[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) {
         [dataArray replaceObjectAtIndex:5 withObject:[alertView buttonTitleAtIndex:buttonIndex]];
         [self reloadTextFieldAtIndex:5 WithText:[dataArray objectAtIndex:5]];
@@ -192,7 +196,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     }];
-    [self dismissKeyboard:nil];
+    [textField resignFirstResponder];
     return YES;
 }
 

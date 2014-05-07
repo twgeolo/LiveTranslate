@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CRGradientNavigationBar.h"
 #import "ChatSelectFriendViewController.h"
 #import "ChatMessagesViewController.h"
-#import "UIViewController+CWPopup.h"
+#import "YIPopupTextView.h"
+#import "FMDB.h"
 
-@interface ChatsViewController : UITableViewController <UIGestureRecognizerDelegate>
+@interface ChatsViewController : UITableViewController <UIGestureRecognizerDelegate, YIPopupTextViewDelegate>
 
+- (void)sendMessageToPeople:(NSArray *)pplAry;
+    
 @end

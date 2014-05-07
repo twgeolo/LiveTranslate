@@ -127,7 +127,7 @@
         popupTextView.delegate = self;
         popupTextView.caretShiftGestureEnabled = YES;
         popupTextView.placeholderColor = [UIColor lightTextColor];
-        [popupTextView showInViewController:self]; // recommended, especially for iOS7
+        [popupTextView showInViewController:self];
     }
 }
 

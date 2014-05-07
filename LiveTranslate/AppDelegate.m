@@ -87,6 +87,8 @@
                     
                     [self executeUpdate:@"INSERT INTO Messages (withUser, sender, message, timeStamp) VALUES (?, ?, ?, ?)", [msgDict objectForKey:@"from"], [msgDict objectForKey:@"from"], [msgDict objectForKey:@"message"], [NSNumber numberWithDouble:[timeStamp timeIntervalSince1970]]];
                 }
+                [UserDefaults setBool:YES forKey:@"hasNewMessage"];
+                [UserDefaults synchronize];
             }
         }
     });
@@ -268,20 +270,29 @@
     }
     [sender.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavBar"] forBarMetrics:UIBarMetricsDefault];
     UIImage *wallpaperImage = [[UIImage imageNamed:@"Wallpaper"] blurredImageWithRadius:5 iterations:2 tintColor:[UIColor blackColor]];
+    if ([NSStringFromClass([sender class]) isEqualToString:@"ChatSelectFriendViewController"]) {
+        [sender.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavBar3"] forBarMetrics:UIBarMetricsDefault];
+        wallpaperImage = [[UIImage imageNamed:@"Wallpaper3"] blurredImageWithRadius:5 iterations:2 tintColor:[UIColor blackColor]];
+    }
     [sender.navigationController.view setBackgroundColor:[UIColor colorWithPatternImage:wallpaperImage]];
     
     UIView *blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     blackView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.68];
     [sender.navigationController.view insertSubview:blackView atIndex:0];
     UIView *blackView2 = [[UIView alloc] initWithFrame:CGRectMake(0, -20, ScreenWidth, 64)];
-    blackView2.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.68];
+    if ([NSStringFromClass([sender class]) isEqualToString:@"ChatSelectFriendViewController"]) {
+        blackView2.frame = CGRectMake(0, -20, ScreenWidth, 94);
+        blackView2.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.72];
+    } else {
+        blackView2.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.68];
+    }
     [sender.navigationController.navigationBar insertSubview:blackView2 atIndex:1];
     
     sender.navigationController.navigationBar.shadowImage = [UIImage new];
     [sender.navigationController.navigationBar setTranslucent:YES];
 }
 
-- (UIImage *)circularImage:(UIImage *)image withFrame:(CGRect)frame {
+- (UIImage *)makeCircularImage:(UIImage *)image withFrame:(CGRect)frame {
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(frame.size.width, frame.size.height), NO, 0.0);
     CGContextRef contextRef = UIGraphicsGetCurrentContext();
     
@@ -321,7 +332,7 @@
             ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
             ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook);
             CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(addressBook, source, kABPersonSortByLastName);
-            CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
+            CFIndex nPeople = CFArrayGetCount(allPeople);
             NSMutableArray *friends = [NSMutableArray new];
             
             if (nPeople == 0) {
@@ -332,7 +343,9 @@
                 for (int i = 0; i < nPeople; i++) {
                     Person *currFriend = [[Person alloc] init];
                     ABRecordRef person = CFArrayGetValueAtIndex(allPeople, i);
-                    if (!person) {
+                    if (ABRecordCopyValue(person, kABPersonFirstNameProperty)==NULL ||
+                        ABRecordCopyValue(person, kABPersonLastNameProperty)==NULL ||
+                        ABRecordCopyValue(person, kABGroupNameProperty)==NULL) {
                         continue;
                     }
                     
@@ -369,8 +382,10 @@
                     currFriend.phone = [NSArray arrayWithArray:phoneNumbers];
                     [friends addObject:currFriend];
                     CFRelease(multiPhones);
-                    CFRelease(person);
                 }
+                CFRelease(addressBook);
+                CFRelease(source);
+                CFRelease(allPeople);
                 
                 NSMutableArray *friendsOnServer = [NSMutableArray new];
                 for (int i=0; i<friends.count; i++) {

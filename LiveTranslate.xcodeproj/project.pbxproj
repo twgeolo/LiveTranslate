@@ -60,7 +60,6 @@
 		5E901D71190ACF4700C8FEB4 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E901D6D190ACF4700C8FEB4 /* NSString+FontAwesome.m */; };
 		5E901D72190ACF4700C8FEB4 /* UIColor+BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E901D6F190ACF4700C8FEB4 /* UIColor+BButton.m */; };
 		5EA3D6FE1912F780005F07B1 /* ChatSelectFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA3D6FD1912F780005F07B1 /* ChatSelectFriendViewController.m */; };
-		5EA3D70219134C9B005F07B1 /* CRGradientNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA3D70119134C9B005F07B1 /* CRGradientNavigationBar.m */; };
 		5EEA05DD1914388B001B8CC2 /* NSString+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EEA058B1914388B001B8CC2 /* NSString+JSMessagesView.m */; };
 		5EEA05DE1914388B001B8CC2 /* UIColor+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EEA058D1914388B001B8CC2 /* UIColor+JSMessagesView.m */; };
 		5EEA05DF1914388B001B8CC2 /* UIImage+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EEA058F1914388B001B8CC2 /* UIImage+JSMessagesView.m */; };
@@ -224,8 +223,6 @@
 		5E901D6F190ACF4700C8FEB4 /* UIColor+BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BButton.m"; sourceTree = "<group>"; };
 		5EA3D6FC1912F780005F07B1 /* ChatSelectFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatSelectFriendViewController.h; sourceTree = "<group>"; };
 		5EA3D6FD1912F780005F07B1 /* ChatSelectFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatSelectFriendViewController.m; sourceTree = "<group>"; };
-		5EA3D70019134C9B005F07B1 /* CRGradientNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGradientNavigationBar.h; sourceTree = "<group>"; };
-		5EA3D70119134C9B005F07B1 /* CRGradientNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGradientNavigationBar.m; sourceTree = "<group>"; };
 		5EEA058A1914388B001B8CC2 /* NSString+JSMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JSMessagesView.h"; sourceTree = "<group>"; };
 		5EEA058B1914388B001B8CC2 /* NSString+JSMessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSMessagesView.m"; sourceTree = "<group>"; };
 		5EEA058C1914388B001B8CC2 /* UIColor+JSMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JSMessagesView.h"; sourceTree = "<group>"; };
@@ -388,7 +385,6 @@
 			children = (
 				5EEA0617191438A9001B8CC2 /* JSQSystemSoundPlayer */,
 				5EEA05871914388B001B8CC2 /* JSMessagesViewController */,
-				5EA3D6FF19134C9B005F07B1 /* CRGradientNavigationBar */,
 				5E2E350E190E20C800BFBC15 /* SIAlertView */,
 				5E901D69190ACF4700C8FEB4 /* BButton */,
 				5E62E32B1909CD970029BA9E /* CWPopup */,
@@ -598,15 +594,6 @@
 				5E901D6F190ACF4700C8FEB4 /* UIColor+BButton.m */,
 			);
 			path = BButton;
-			sourceTree = "<group>";
-		};
-		5EA3D6FF19134C9B005F07B1 /* CRGradientNavigationBar */ = {
-			isa = PBXGroup;
-			children = (
-				5EA3D70019134C9B005F07B1 /* CRGradientNavigationBar.h */,
-				5EA3D70119134C9B005F07B1 /* CRGradientNavigationBar.m */,
-			);
-			path = CRGradientNavigationBar;
 			sourceTree = "<group>";
 		};
 		5EEA05871914388B001B8CC2 /* JSMessagesViewController */ = {
@@ -955,7 +942,6 @@
 				5E7F2C8D1905DACC00872131 /* MRCircularProgressView.m in Sources */,
 				5EEA05E61914388B001B8CC2 /* JSMessageInputView.m in Sources */,
 				5E573326190838B100BFFCDC /* FMDatabaseAdditions.m in Sources */,
-				5EA3D70219134C9B005F07B1 /* CRGradientNavigationBar.m in Sources */,
 				5EEA05DE1914388B001B8CC2 /* UIColor+JSMessagesView.m in Sources */,
 				5E7F2C6D1905D12400872131 /* PDKeychainBindings.m in Sources */,
 				5EEA05EA1914388B001B8CC2 /* JSMessageTextView.m in Sources */,

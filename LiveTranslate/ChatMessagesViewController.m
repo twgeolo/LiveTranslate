@@ -14,6 +14,7 @@
 
 @implementation ChatMessagesViewController {
     UIImage *friendImage;
+    UIImage *selfImage;
     NSTimer *timer;
 }
 
@@ -25,16 +26,40 @@
     
     [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
     
-    self.title = self.userName;
+    FMResultSet *s = [ApplicationDelegate executeQuery:@"SELECT displayName, image, gender FROM Friends WHERE userName=?", self.userName];
+    if ([s next]) {
+        self.title = [s objectForColumnIndex:0];
+        if ([s objectForColumnIndex:1]!=(NSData *)[NSNull null]) {
+            friendImage = [UIImage imageWithData:[s objectForColumnIndex:1]];
+        } else {
+            if ([[s objectForColumnIndex:2] isEqualToString:@"M"]) {
+                friendImage = [UIImage imageNamed:@"Male"];
+            } else {
+                friendImage = [UIImage imageNamed:@"Female"];
+            }
+        }
+    }
+    friendImage = [self resizedImage:[ApplicationDelegate makeCircularImage:friendImage withFrame:CGRectMake(0, 0, 50, 50)]];
+    if ([[UserDefaults objectForKey:@"gender"] isEqualToString:@"M"]) {
+        selfImage = [self resizedImage:[ApplicationDelegate makeCircularImage:[UIImage imageNamed:@"Male"] withFrame:CGRectMake(0, 0, 50, 50)]];
+    } else {
+        selfImage = [self resizedImage:[ApplicationDelegate makeCircularImage:[UIImage imageNamed:@"Female"] withFrame:CGRectMake(0, 0, 50, 50)]];
+    }
     self.messageInputView.textView.placeHolder = @"New Message";
     self.sender = [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"];;
     
     [self setBackgroundColor:[UIColor colorWithPatternImage:[[UIImage imageNamed:@"Wallpaper2"] blurredImageWithRadius:5 iterations:2 tintColor:[UIColor blackColor]]]];
     
     self.messages = [NSMutableArray new];
-    FMResultSet *s = [ApplicationDelegate executeQuery:@"SELECT sender, message, timeStamp FROM Messages WHERE withUser=? ORDER BY timeStamp", self.userName];
+    s = [ApplicationDelegate executeQuery:@"SELECT sender, message, timeStamp FROM Messages WHERE withUser=? ORDER BY timeStamp", self.userName];
     while ([s next]) {
-        JSMessage *message = [[JSMessage alloc] initWithText:[s objectForColumnIndex:1] sender:[s objectForColumnIndex:0] date:[NSDate dateWithTimeIntervalSince1970:[[s objectForColumnIndex:2] integerValue]]];
+        NSString *sender = [s objectForColumnIndex:0];
+        if ([sender isEqualToString:self.sender]) {
+            sender = [UserDefaults objectForKey:@"realName"];
+        } else {
+            sender = self.title;
+        }
+        JSMessage *message = [[JSMessage alloc] initWithText:[s objectForColumnIndex:1] sender:sender date:[NSDate dateWithTimeIntervalSince1970:[[s objectForColumnIndex:2] integerValue]]];
         [self.messages addObject:message];
     }
     
@@ -87,11 +112,14 @@
                         dispatch_async(dispatch_get_main_queue(), ^{
                             ShowNetworkActivityIndicator();
                             [JSMessageSoundEffect playMessageReceivedSound];
-                            [self.messages addObject:[[JSMessage alloc] initWithText:[msgDict objectForKey:@"message"] sender:self.userName date:timeStamp]];
+                            [self.messages addObject:[[JSMessage alloc] initWithText:[msgDict objectForKey:@"message"] sender:self.title date:timeStamp]];
                             [self finishSend];
                             [self scrollToBottomAnimated:YES];
                             HideNetworkActivityIndicator();
                         });
+                    } else {
+                        [UserDefaults setBool:YES forKey:@"hasNewMessage"];
+                        [UserDefaults synchronize];
                     }
                     
                     [ApplicationDelegate executeUpdate:@"INSERT INTO Messages (withUser, sender, message, timeStamp) VALUES (?, ?, ?, ?)", [msgDict objectForKey:@"from"], [msgDict objectForKey:@"from"], [msgDict objectForKey:@"message"], [NSNumber numberWithDouble:[timeStamp timeIntervalSince1970]]];
@@ -119,37 +147,38 @@
     [self finishSend];
     [self scrollToBottomAnimated:YES];
     
-    NSString *urlStr = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/send?sourceLang=%@&toUser=%@&user=%@&pin=%@&message=%@", [UserDefaults objectForKey:@"Lang"], self.userName, [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"], text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlStr]];
-    if (data) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
-        } else {
-            SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Failed" andMessage:[dict objectForKey:@"message"]];
-            [alertView addButtonWithTitle:@"OK" type:SIAlertViewButtonTypeDestructive handler:nil];
-            [alertView show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSString *urlStr = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/send?sourceLang=%@&toUser=%@&user=%@&pin=%@&message=%@", [UserDefaults objectForKey:@"Lang"], self.userName, [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"], text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlStr]];
+        if (data) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            if ([[dict objectForKey:@"success"] isEqualToString:@"true"]) {
+            } else {
+                SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Failed" andMessage:[dict objectForKey:@"message"]];
+                [alertView addButtonWithTitle:@"OK" type:SIAlertViewButtonTypeDestructive handler:nil];
+                [alertView show];
+            }
         }
-    }
-
+    });
 }
 
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     JSMessage *message = [self.messages objectAtIndex:indexPath.row];
-    if ([message.sender isEqualToString:self.sender]) {
-        return JSBubbleMessageTypeOutgoing;
+    if ([message.sender isEqualToString:self.title]) {
+        return JSBubbleMessageTypeIncoming;
     }
-    return JSBubbleMessageTypeIncoming;
+    return JSBubbleMessageTypeOutgoing;
 }
 
 - (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type
                        forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     JSMessage *message = [self.messages objectAtIndex:indexPath.row];
-    if ([message.sender isEqualToString:self.sender]) {
-        return [JSBubbleImageViewFactory bubbleImageViewForType:type color:[UIColor js_bubbleBlueColor]];
+    if ([message.sender isEqualToString:self.title]) {
+        return [JSBubbleImageViewFactory bubbleImageViewForType:type color:[UIColor js_bubbleLightGrayColor]];
     }
-    return [JSBubbleImageViewFactory bubbleImageViewForType:type color:[UIColor js_bubbleLightGrayColor]];
+    return [JSBubbleImageViewFactory bubbleImageViewForType:type color:[UIColor js_bubbleBlueColor]];
 }
 
 - (JSMessageInputViewStyle)inputViewStyle
@@ -204,7 +233,19 @@
 
 - (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath sender:(NSString *)sender
 {
-    return [UIImageView new];
+    if ([sender isEqualToString:self.title]) {
+        return [[UIImageView alloc] initWithImage:friendImage];
+    } else {
+        return [[UIImageView alloc] initWithImage:selfImage];
+    }
+}
+
+- (UIImage *)resizedImage:(UIImage *)image {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(50, 50), NO, 0.0);
+    [image drawInRect:CGRectMake(5, 5, 40, 40)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 @end

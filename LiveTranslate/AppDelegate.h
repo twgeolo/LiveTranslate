@@ -34,7 +34,7 @@
                            placeholder: (NSString *)placeholder
                                  image: (NSString *)imageName;
 - (void)customizeViewController: (UIViewController *)sender tableView: (BOOL)tvBool;
-- (UIImage *)circularImage:(UIImage*)image withFrame:(CGRect)frame;
+- (UIImage *)makeCircularImage:(UIImage*)image withFrame:(CGRect)frame;
 - (void)getContacts;
 - (NSString *)languageForKey: (NSString *)key;
 
