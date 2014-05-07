@@ -13,6 +13,20 @@ Version: 1.0
 - ARC
 - ARM: v7, v7s, 64
 
+### Libraries used
+- QTree
+- JSQSystemSoundPlayer
+- JSMessagesViewController
+- SIAlertView
+- BButton
+- CWPopup
+- RESideMenu
+- FMDB
+- MRProgress
+- PDKeychainBindingsController
+- YIPopupTextView
+- FXBlurView
+
 ### Interface
 - CoreGraphics framework
 - QuartzCore framework
@@ -42,4 +56,3 @@ Version: 1.0
 - Source Control: GIT
 	- Server: https://github.com/kingshu/live-translate
 	- iOS App: https://github.com/twgeolo/LiveTranslate
-
