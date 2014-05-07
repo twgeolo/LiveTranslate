@@ -22,7 +22,7 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
     [self executeUpdate:@"CREATE TABLE IF NOT EXISTS Friends (userName TEXT, realName TEXT, displayName TEXT, status TEXT, phone TEXT, gender INT, image BLOB)"];
-    [self executeUpdate:@"CREATE TABLE IF NOT EXISTS Messages (withUser TEXT, sender TEXT, message TEXT, timeStamp INT)"];
+    [self executeUpdate:@"CREATE TABLE IF NOT EXISTS Messages (withUser TEXT, sender TEXT, message TEXT, timeStamp INT, lat REAL, lon REAL)"];
     
     if ([UserDefaults objectForKey:@"Lang"] == nil) {
         [UserDefaults setObject:@"en" forKey:@"Lang"];

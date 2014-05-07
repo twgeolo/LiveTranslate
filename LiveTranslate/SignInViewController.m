@@ -107,6 +107,8 @@
     if (![UserDefaults integerForKey:@"NoGlow"] && !isGlowing ) {
         [self bright:nil];
 		isGlowing = YES;
+    } else {
+        isGlowing = NO;
     }
 }
 

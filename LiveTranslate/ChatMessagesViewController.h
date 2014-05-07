@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "JSMessage.h"
 #import "JSMessagesViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface ChatMessagesViewController : JSMessagesViewController <JSMessagesViewDataSource, JSMessagesViewDelegate>
+@interface ChatMessagesViewController : JSMessagesViewController <CLLocationManagerDelegate, JSMessagesViewDataSource, JSMessagesViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) NSString *userName;

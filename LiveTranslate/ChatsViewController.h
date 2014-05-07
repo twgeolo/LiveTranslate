@@ -11,8 +11,9 @@
 #import "ChatMessagesViewController.h"
 #import "YIPopupTextView.h"
 #import "FMDB.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface ChatsViewController : UITableViewController <UIGestureRecognizerDelegate, YIPopupTextViewDelegate>
+@interface ChatsViewController : UITableViewController <CLLocationManagerDelegate, UIGestureRecognizerDelegate, YIPopupTextViewDelegate>
 
 - (void)sendMessageToPeople:(NSArray *)pplAry;
     

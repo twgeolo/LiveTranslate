@@ -11,6 +11,7 @@
 #import "ProfileViewController.h"
 #import "FriendsViewController.h"
 #import "ChatsViewController.h"
+#import "ChatMapViewController.h"
 #import "SettingsViewController.h"
 #import <MessageUI/MessageUI.h>
 

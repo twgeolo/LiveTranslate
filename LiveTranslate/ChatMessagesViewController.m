@@ -16,6 +16,8 @@
     UIImage *friendImage;
     UIImage *selfImage;
     NSTimer *timer;
+    CLLocationManager *locationManager;
+    float userLat, userLon;
 }
 
 - (void)viewDidLoad
@@ -76,6 +78,17 @@
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavBar2"] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
+    
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [locationManager startUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    userLat = newLocation.coordinate.latitude;
+    userLon = newLocation.coordinate.longitude;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -141,8 +154,20 @@
 - (void)didSendText:(NSString *)text fromSender:(NSString *)sender onDate:(NSDate *)date
 {
     [JSMessageSoundEffect playMessageSentSound];
-    [ApplicationDelegate executeUpdate:@"INSERT INTO Messages (withUser, sender, message, timeStamp) VALUES (?, ?, ?, ?)", self.userName, self.sender, text, [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
+    srand48(time(0));
+    double lat;
+    double lon;
+    if (DUMMY_LOC) {
+        lat = 40.4422655 + 0.5 * (1 - 2 * drand48());
+        lon = -86.9265415 + 0.5 * (1 - 2 * drand48());
+    } else {
+        lat = userLat;
+        lon = userLon;
+    }
+    [ApplicationDelegate executeUpdate:@"INSERT INTO Messages (withUser, sender, message, timeStamp, lat, lon) VALUES (?, ?, ?, ?, ?, ?)", self.userName, self.sender, text, [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]], [NSNumber numberWithDouble:lat], [NSNumber numberWithDouble:lon]];
     [self.messages addObject:[[JSMessage alloc] initWithText:text sender:self.sender date:date]];
+    [UserDefaults setBool:YES forKey:@"hasNewMessage"];
+    [UserDefaults synchronize];
     
     [self finishSend];
     [self scrollToBottomAnimated:YES];

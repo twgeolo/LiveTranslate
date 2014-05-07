@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E1198F6191A487600FF74CE /* ChatMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1198F5191A487600FF74CE /* ChatMapViewController.m */; };
+		5E1198F8191A4A7300FF74CE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E1198F7191A4A7300FF74CE /* MapKit.framework */; };
+		5E1198FB191A4D3600FF74CE /* ClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1198FA191A4D3600FF74CE /* ClusterAnnotationView.m */; };
+		5E1198FE191A4EF700FF74CE /* ChatAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1198FD191A4EF700FF74CE /* ChatAnnotation.m */; };
+		5E11990F191A5BA400FF74CE /* QCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E119906191A5BA400FF74CE /* QCluster.m */; };
+		5E119910191A5BA400FF74CE /* QNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E119908191A5BA400FF74CE /* QNode.m */; };
+		5E119911191A5BA400FF74CE /* QTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E11990B191A5BA400FF74CE /* QTree.m */; };
+		5E119912191A5BA400FF74CE /* QTreeGeometryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E11990D191A5BA400FF74CE /* QTreeGeometryUtils.m */; };
+		5E119914191A5C2800FF74CE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E119913191A5C2800FF74CE /* CoreLocation.framework */; };
 		5E2E3514190E20C800BFBC15 /* SIAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5E2E350F190E20C800BFBC15 /* SIAlertView.bundle */; };
 		5E2E3515190E20C800BFBC15 /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E2E3511190E20C800BFBC15 /* SIAlertView.m */; };
 		5E2E3516190E20C800BFBC15 /* UIWindow+SIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E2E3513190E20C800BFBC15 /* UIWindow+SIUtils.m */; };
@@ -122,6 +131,24 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E1198F4191A487600FF74CE /* ChatMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatMapViewController.h; sourceTree = "<group>"; };
+		5E1198F5191A487600FF74CE /* ChatMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatMapViewController.m; sourceTree = "<group>"; };
+		5E1198F7191A4A7300FF74CE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		5E1198F9191A4D3600FF74CE /* ClusterAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusterAnnotationView.h; sourceTree = "<group>"; };
+		5E1198FA191A4D3600FF74CE /* ClusterAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClusterAnnotationView.m; sourceTree = "<group>"; };
+		5E1198FC191A4EF700FF74CE /* ChatAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatAnnotation.h; sourceTree = "<group>"; };
+		5E1198FD191A4EF700FF74CE /* ChatAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatAnnotation.m; sourceTree = "<group>"; };
+		5E119905191A5BA400FF74CE /* QCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCluster.h; sourceTree = "<group>"; };
+		5E119906191A5BA400FF74CE /* QCluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QCluster.m; sourceTree = "<group>"; };
+		5E119907191A5BA400FF74CE /* QNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNode.h; sourceTree = "<group>"; };
+		5E119908191A5BA400FF74CE /* QNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNode.m; sourceTree = "<group>"; };
+		5E119909191A5BA400FF74CE /* QTree-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QTree-Prefix.pch"; sourceTree = "<group>"; };
+		5E11990A191A5BA400FF74CE /* QTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QTree.h; sourceTree = "<group>"; };
+		5E11990B191A5BA400FF74CE /* QTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QTree.m; sourceTree = "<group>"; };
+		5E11990C191A5BA400FF74CE /* QTreeGeometryUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QTreeGeometryUtils.h; sourceTree = "<group>"; };
+		5E11990D191A5BA400FF74CE /* QTreeGeometryUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QTreeGeometryUtils.m; sourceTree = "<group>"; };
+		5E11990E191A5BA400FF74CE /* QTreeInsertable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QTreeInsertable.h; sourceTree = "<group>"; };
+		5E119913191A5C2800FF74CE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5E2E350F190E20C800BFBC15 /* SIAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SIAlertView.bundle; sourceTree = "<group>"; };
 		5E2E3510190E20C800BFBC15 /* SIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertView.h; sourceTree = "<group>"; };
 		5E2E3511190E20C800BFBC15 /* SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertView.m; sourceTree = "<group>"; };
@@ -305,6 +332,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E119914191A5C2800FF74CE /* CoreLocation.framework in Frameworks */,
+				5E1198F8191A4A7300FF74CE /* MapKit.framework in Frameworks */,
 				5E345E1019135F3A000C70F4 /* AudioToolbox.framework in Frameworks */,
 				5E901D65190A023D00C8FEB4 /* MessageUI.framework in Frameworks */,
 				5E57332E190899F200BFFCDC /* libsqlite3.0.dylib in Frameworks */,
@@ -319,6 +348,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E119904191A5BA400FF74CE /* QTree */ = {
+			isa = PBXGroup;
+			children = (
+				5E119905191A5BA400FF74CE /* QCluster.h */,
+				5E119906191A5BA400FF74CE /* QCluster.m */,
+				5E119907191A5BA400FF74CE /* QNode.h */,
+				5E119908191A5BA400FF74CE /* QNode.m */,
+				5E119909191A5BA400FF74CE /* QTree-Prefix.pch */,
+				5E11990A191A5BA400FF74CE /* QTree.h */,
+				5E11990B191A5BA400FF74CE /* QTree.m */,
+				5E11990C191A5BA400FF74CE /* QTreeGeometryUtils.h */,
+				5E11990D191A5BA400FF74CE /* QTreeGeometryUtils.m */,
+				5E11990E191A5BA400FF74CE /* QTreeInsertable.h */,
+			);
+			path = QTree;
+			sourceTree = "<group>";
+		};
+		5E119915191A5F8600FF74CE /* Map Stuff */ = {
+			isa = PBXGroup;
+			children = (
+				5E1198FC191A4EF700FF74CE /* ChatAnnotation.h */,
+				5E1198FD191A4EF700FF74CE /* ChatAnnotation.m */,
+				5E1198F9191A4D3600FF74CE /* ClusterAnnotationView.h */,
+				5E1198FA191A4D3600FF74CE /* ClusterAnnotationView.m */,
+			);
+			name = "Map Stuff";
+			sourceTree = "<group>";
+		};
 		5E2E350E190E20C800BFBC15 /* SIAlertView */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,6 +440,7 @@
 		5E62E32A1909C57B0029BA9E /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5E119904191A5BA400FF74CE /* QTree */,
 				5EEA0617191438A9001B8CC2 /* JSQSystemSoundPlayer */,
 				5EEA05871914388B001B8CC2 /* JSMessagesViewController */,
 				5E2E350E190E20C800BFBC15 /* SIAlertView */,
@@ -427,6 +485,8 @@
 		5E7F2C0819045D0F00872131 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5E119913191A5C2800FF74CE /* CoreLocation.framework */,
+				5E1198F7191A4A7300FF74CE /* MapKit.framework */,
 				5E345E0F19135F3A000C70F4 /* AudioToolbox.framework */,
 				5E901D64190A023D00C8FEB4 /* MessageUI.framework */,
 				5E57332D190899F200BFFCDC /* libsqlite3.0.dylib */,
@@ -501,6 +561,9 @@
 				5EA3D6FD1912F780005F07B1 /* ChatSelectFriendViewController.m */,
 				5E345F7919137362000C70F4 /* ChatMessagesViewController.h */,
 				5E345F7A19137362000C70F4 /* ChatMessagesViewController.m */,
+				5E1198F4191A487600FF74CE /* ChatMapViewController.h */,
+				5E1198F5191A487600FF74CE /* ChatMapViewController.m */,
+				5E119915191A5F8600FF74CE /* Map Stuff */,
 				5E7F2C5B19058FEC00872131 /* SettingsViewController.h */,
 				5E7F2C5C19058FEC00872131 /* SettingsViewController.m */,
 			);
@@ -912,12 +975,16 @@
 				5E7F2C661905CFC200872131 /* YIPopupTextView.m in Sources */,
 				5EEA05E91914388B001B8CC2 /* JSMessageTableView.m in Sources */,
 				5EA3D6FE1912F780005F07B1 /* ChatSelectFriendViewController.m in Sources */,
+				5E1198FE191A4EF700FF74CE /* ChatAnnotation.m in Sources */,
 				5E7F2C5419058FC200872131 /* FriendsViewController.m in Sources */,
+				5E119911191A5BA400FF74CE /* QTree.m in Sources */,
+				5E1198F6191A487600FF74CE /* ChatMapViewController.m in Sources */,
 				5E7F2C5A19058FE100872131 /* ChatsViewController.m in Sources */,
 				5E345F7B19137362000C70F4 /* ChatMessagesViewController.m in Sources */,
 				5EEA05E31914388B001B8CC2 /* JSBubbleView.m in Sources */,
 				5E7F2C8F1905DACC00872131 /* MRNavigationBarProgressView.m in Sources */,
 				5EEA05DD1914388B001B8CC2 /* NSString+JSMessagesView.m in Sources */,
+				5E1198FB191A4D3600FF74CE /* ClusterAnnotationView.m in Sources */,
 				5EEA05E51914388B001B8CC2 /* JSMessage.m in Sources */,
 				5E62E3221909A7610029BA9E /* RECommonFunctions.m in Sources */,
 				5E901D70190ACF4700C8FEB4 /* BButton.m in Sources */,
@@ -926,6 +993,7 @@
 				5E573327190838B100BFFCDC /* FMDatabasePool.m in Sources */,
 				5E2E3516190E20C800BFBC15 /* UIWindow+SIUtils.m in Sources */,
 				5E573325190838B100BFFCDC /* FMDatabase.m in Sources */,
+				5E119910191A5BA400FF74CE /* QNode.m in Sources */,
 				5E7F2C671905CFC200872131 /* YISSTextView.m in Sources */,
 				5E7F2C4B190475FC00872131 /* FXBlurView.m in Sources */,
 				5E573328190838B100BFFCDC /* FMDatabaseQueue.m in Sources */,
@@ -935,7 +1003,9 @@
 				5E62E3271909A76C0029BA9E /* SideMenuViewController.m in Sources */,
 				5E7F2C43190471E400872131 /* SignInViewController.m in Sources */,
 				5E7F2C931905DACC00872131 /* MRWeakProxy.m in Sources */,
+				5E119912191A5BA400FF74CE /* QTreeGeometryUtils.m in Sources */,
 				5E62E3231909A7610029BA9E /* RESideMenu.m in Sources */,
+				5E11990F191A5BA400FF74CE /* QCluster.m in Sources */,
 				5E7F2C5D19058FEC00872131 /* SettingsViewController.m in Sources */,
 				5E62E32E1909CD970029BA9E /* UIViewController+CWPopup.m in Sources */,
 				5EEA061A191438A9001B8CC2 /* JSQSystemSoundPlayer.m in Sources */,

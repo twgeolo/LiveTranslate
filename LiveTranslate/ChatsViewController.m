@@ -19,6 +19,8 @@
     NSMutableArray *peopleArray;
     BOOL loaded;
     NSMutableArray *deleteUsrAry;
+    CLLocationManager *locationManager;
+    float userLat, userLon;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -55,6 +57,17 @@
 	hintLabel.textColor = [UIColor whiteColor];
     
     [ApplicationDelegate customizeViewController:self tableView:YES];
+    
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [locationManager startUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    userLat = newLocation.coordinate.latitude;
+    userLon = newLocation.coordinate.longitude;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -260,8 +273,18 @@
         }
         NSString *urlStr = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/send?sourceLang=%@&%@&user=%@&pin=%@&message=%@", [UserDefaults objectForKey:@"Lang"], toUserStr, [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"PIN"], text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [ApplicationDelegate sendRequestWithURL:urlStr successBlock:^{
+            srand48(time(0));
             for (NSString *user in peopleArray) {
-                [ApplicationDelegate executeUpdate:@"INSERT INTO Messages (withUser, sender, message, timeStamp) VALUES (?, ?, ?, ?)", user, [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], text, [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
+                double lat;
+                double lon;
+                if (DUMMY_LOC) {
+                    lat = 40.4422655 + 0.5 * (1 - 2 * drand48());
+                    lon = -86.9265415 + 0.5 * (1 - 2 * drand48());
+                } else {
+                    lat = userLat;
+                    lon = userLon;
+                }
+                [ApplicationDelegate executeUpdate:@"INSERT INTO Messages (withUser, sender, message, timeStamp, lat, lon) VALUES (?, ?, ?, ?, ?, ?)", user, [[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"], text, [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]], [NSNumber numberWithDouble:lat], [NSNumber numberWithDouble:lon]];
             }
             [friendCellAry removeAllObjects];
             

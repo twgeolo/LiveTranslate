@@ -32,7 +32,7 @@
 {
     [super viewDidLoad];
     self.tableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, (self.view.frame.size.height - 48 * 7) / 2.0f, 200, 48 * 7) style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(20, (self.view.frame.size.height - 48 * 8) / 2.0f, 200, 48 * 8) style:UITableViewStylePlain];
         tableView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         tableView.delegate = self;
         tableView.dataSource = self;
@@ -44,8 +44,8 @@
         tableView;
     });
     [self.view addSubview:self.tableView];
-    titleAry = [NSArray arrayWithObjects:@"Profile", @"Friends", @"Chats", @"Settings", @"Report Bug", @"", @"LiveTranslate 1.0\n   by log & kmedhi", nil];
-    imageAry = [NSArray arrayWithObjects:@"Profile", @"Friends", @"Chats", @"Settings", @"Report Bug", nil];
+    titleAry = [NSArray arrayWithObjects:@"Profile", @"Friends", @"Chats", @"Chat Map", @"Settings", @"Report Bug", @"", @"LiveTranslate 1.0\n   by log & kmedhi", nil];
+    imageAry = [NSArray arrayWithObjects:@"Profile", @"Friends", @"Chats", @"Chat Map", @"Settings", @"Report Bug", nil];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -66,10 +66,14 @@
             [self.sideMenuViewController hideMenuViewController];
             break;
         case 3:
-            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[[SettingsViewController alloc] init]] animated:YES];
+            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[[ChatMapViewController alloc] init]] animated:YES];
             [self.sideMenuViewController hideMenuViewController];
             break;
         case 4:
+            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[[SettingsViewController alloc] init]] animated:YES];
+            [self.sideMenuViewController hideMenuViewController];
+            break;
+        case 5:
             mc = [[MFMailComposeViewController alloc] init];
             mc.navigationBar.titleTextAttributes = @{
                                                      NSForegroundColorAttributeName: [UIColor blackColor],
@@ -82,7 +86,9 @@
             [mc.navigationController.navigationBar setTintColor:[UIColor colorWithRed:0 green:122./255 blue:1 alpha:1]];
 			mc.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:0 green:122./255 blue:1 alpha:1];
 			mc.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:0 green:122./255 blue:1 alpha:1];
+            [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0 green:122./255 blue:1 alpha:1]];
             [self presentViewController:mc animated:YES completion:NULL];
+            [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0 green:122./255 blue:1 alpha:1]];
         default:
             break;
     }
@@ -90,7 +96,10 @@
 
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
+    
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [self dismissViewControllerAnimated:YES completion:NULL];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -124,7 +133,7 @@
     }
     
     cell.textLabel.text = titleAry[indexPath.row];
-    if (indexPath.row < 5) {
+    if (indexPath.row < 6) {
         cell.imageView.image = [UIImage imageNamed:imageAry[indexPath.row]];
     } else {
         cell.textLabel.numberOfLines = 2;
