@@ -28,6 +28,7 @@ NOTE: Cannot be used on Simulator
 - PDKeychainBindingsController
 - YIPopupTextView
 - FXBlurView
+- iOS Useful Macro from https://gist.github.com/numo16/3407652
 
 ### Interface
 - CoreGraphics framework
