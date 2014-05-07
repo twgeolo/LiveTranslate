@@ -4,6 +4,8 @@ Platform: iOS
 
 Version: 1.0
 
+NOTE: Cannot be used on Simulator
+
 ### Developers
 - Front-end: George Lo (log@purdue.edu)
 - Back-end: Krishnabh Medhi (kmedhi@purdue.edu)

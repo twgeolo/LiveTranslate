@@ -107,8 +107,6 @@
     if (![UserDefaults integerForKey:@"NoGlow"] && !isGlowing ) {
         [self bright:nil];
 		isGlowing = YES;
-    } else {
-        isGlowing = NO;
     }
 }
 
@@ -171,6 +169,9 @@
         
         NSString *urlString = [[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/login?name=%@&pin=%@",username,password] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [ApplicationDelegate sendRequestWithURL:urlString successBlock:^{
+            if (![[[PDKeychainBindings sharedKeychainBindings] objectForKey:@"Username"] isEqualToString:username]) {
+                [ApplicationDelegate executeUpdate:@"DELETE FROM Messages"];
+            }
             [[PDKeychainBindings sharedKeychainBindings] setObject:username forKey:@"Username"];
             [[PDKeychainBindings sharedKeychainBindings] setObject:password forKey:@"PIN"];
             NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ec2-54-81-194-68.compute-1.amazonaws.com/profile?username=%@",username]]];

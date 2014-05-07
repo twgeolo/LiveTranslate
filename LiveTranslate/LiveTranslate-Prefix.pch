@@ -22,7 +22,7 @@
 // Macro Settings
 #define FORCE_LOGIN 0
 #define DUMMY_DATA 0
-#define DUMMY_LOC 1
+#define DUMMY_LOC 0
 
 // Useful iOS Macros
 #define ApplicationDelegate                 ((AppDelegate *)[[UIApplication sharedApplication] delegate])

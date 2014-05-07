@@ -47,6 +47,9 @@
         srand48(time(0));
         FMResultSet *s = [ApplicationDelegate executeQuery:@"SELECT Friends.displayName, Messages.message, Messages.lat, Messages.lon FROM Messages INNER JOIN Friends WHERE Messages.withUser == Friends.userName"];
         while ([s next]) {
+            if ([s objectForColumnIndex:2]==[NSNull null]) {
+                continue;
+            }
             ChatAnnotation *point = [[ChatAnnotation alloc] init];
             point.coordinate = CLLocationCoordinate2DMake([[s objectForColumnIndex:2] floatValue], [[s objectForColumnIndex:3] floatValue]);
             point.title = [s objectForColumnIndex:0];
